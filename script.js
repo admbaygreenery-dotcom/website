@@ -1,15 +1,199 @@
-// Bay Greenery - Minimal scripts for GitHub Pages
-// Review scroll is handled by CSS overflow-x. Optional: add arrow buttons later.
+/* ====================================================================
+   Bay Greenery — site scripts
+   - Wires up config.js values to links across the site
+   - Services carousel (advances by 3 on desktop, 2 on tablet, 1 on mobile)
+   - Reviews auto-scroll with pause on hover / interaction
+   - Smooth scroll for # anchors
+   ==================================================================== */
 
-document.addEventListener('DOMContentLoaded', function () {
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-    anchor.addEventListener('click', function (e) {
-      const href = this.getAttribute('href');
-      if (href === '#') return;
-      e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    });
+(function () {
+  'use strict';
+
+  const config = window.BAY_GREENERY_CONFIG || {};
+
+  document.addEventListener('DOMContentLoaded', function () {
+    applyConfigToDom();
+    injectAnalytics();
+    initServicesCarousel();
+    initReviewsAutoScroll();
+    initSmoothScroll();
   });
-});
+
+  /* -----------------------------------------------------------------
+     Apply config.js values to elements with class hooks.
+     ----------------------------------------------------------------- */
+  function applyConfigToDom() {
+    // Booking form link
+    document.querySelectorAll('.js-booking-link').forEach(function (el) {
+      if (config.bookingFormUrl) {
+        el.setAttribute('href', config.bookingFormUrl);
+        el.setAttribute('target', '_blank');
+        el.setAttribute('rel', 'noopener');
+      }
+    });
+
+    // Google Reviews link
+    document.querySelectorAll('.js-reviews-link').forEach(function (el) {
+      if (config.googleReviewsUrl) el.setAttribute('href', config.googleReviewsUrl);
+    });
+
+    // Instagram link
+    document.querySelectorAll('.js-instagram-link').forEach(function (el) {
+      if (config.instagramUrl) el.setAttribute('href', config.instagramUrl);
+    });
+
+    // License text
+    document.querySelectorAll('[data-config="license"]').forEach(function (el) {
+      if (config.license) el.textContent = config.license;
+    });
+  }
+
+  /* -----------------------------------------------------------------
+     Inject Google Analytics if a measurement ID is configured.
+     ----------------------------------------------------------------- */
+  function injectAnalytics() {
+    if (!config.googleAnalyticsId) return;
+    const gtagScript = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(config.googleAnalyticsId);
+    document.head.appendChild(gtagScript);
+
+    const inline = document.createElement('script');
+    inline.textContent =
+      'window.dataLayer = window.dataLayer || [];' +
+      'function gtag(){dataLayer.push(arguments);}' +
+      'gtag("js", new Date());' +
+      'gtag("config", "' + config.googleAnalyticsId.replace(/"/g, '') + '");';
+    document.head.appendChild(inline);
+  }
+
+  /* -----------------------------------------------------------------
+     Services carousel — advances by full visible group on each click.
+     Falls back gracefully if controls are missing.
+     ----------------------------------------------------------------- */
+  function initServicesCarousel() {
+    const root = document.getElementById('servicesCarousel');
+    if (!root) return;
+    const track = root.querySelector('.carousel-track');
+    const cards = track ? track.querySelectorAll('.service-card') : [];
+    const prevBtn = root.querySelector('[data-carousel-prev]');
+    const nextBtn = root.querySelector('[data-carousel-next]');
+    if (!track || !cards.length || !prevBtn || !nextBtn) return;
+
+    let currentIndex = 0;
+
+    function visibleCount() {
+      const w = window.innerWidth;
+      if (w <= 600) return 1;
+      if (w <= 900) return 2;
+      return 3;
+    }
+
+    function updateTrack() {
+      const groupSize = visibleCount();
+      const maxIndex = Math.max(0, cards.length - groupSize);
+      if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+      const cardRect = cards[0].getBoundingClientRect();
+      const trackStyles = window.getComputedStyle(track);
+      const gap = parseFloat(trackStyles.columnGap || trackStyles.gap || '0') || 0;
+      const offset = (cardRect.width + gap) * currentIndex;
+      track.style.transform = 'translateX(-' + offset + 'px)';
+
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex >= maxIndex;
+    }
+
+    prevBtn.addEventListener('click', function () {
+      currentIndex = Math.max(0, currentIndex - visibleCount());
+      updateTrack();
+    });
+
+    nextBtn.addEventListener('click', function () {
+      const maxIndex = Math.max(0, cards.length - visibleCount());
+      currentIndex = Math.min(maxIndex, currentIndex + visibleCount());
+      updateTrack();
+    });
+
+    window.addEventListener('resize', updateTrack);
+    // Run once layout settles (fonts/images can shift card widths)
+    updateTrack();
+    setTimeout(updateTrack, 100);
+    window.addEventListener('load', updateTrack);
+  }
+
+  /* -----------------------------------------------------------------
+     Reviews auto-scroll — continuous horizontal drift.
+     Pauses on hover, touch, or focus.
+     ----------------------------------------------------------------- */
+  function initReviewsAutoScroll() {
+    const root = document.getElementById('reviewsCarousel');
+    if (!root) return;
+    const viewport = root.querySelector('.reviews-viewport');
+    const track = root.querySelector('.reviews-track');
+    if (!viewport || !track) return;
+
+    const cards = track.querySelectorAll('.review-card');
+    if (!cards.length) return;
+
+    // Duplicate the cards so the loop seam isn't visible.
+    cards.forEach(function (card) {
+      track.appendChild(card.cloneNode(true));
+    });
+
+    // Reset the CSS transition so we can drive movement frame-by-frame.
+    track.style.transition = 'none';
+    let offset = 0;
+    let paused = false;
+    const speedPxPerSecond = 28;
+    let lastTimestamp = null;
+
+    function step(timestamp) {
+      if (lastTimestamp == null) lastTimestamp = timestamp;
+      const dt = (timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+      if (!paused) {
+        offset += speedPxPerSecond * dt;
+        const trackWidth = track.scrollWidth / 2; // we cloned once, so loop at half
+        if (offset >= trackWidth) offset -= trackWidth;
+        track.style.transform = 'translateX(-' + offset + 'px)';
+      }
+      requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+
+    function pause()  { paused = true; }
+    function resume() { paused = false; lastTimestamp = null; }
+
+    ['mouseenter', 'focusin', 'touchstart'].forEach(function (ev) {
+      root.addEventListener(ev, pause, { passive: true });
+    });
+    ['mouseleave', 'focusout', 'touchend', 'touchcancel'].forEach(function (ev) {
+      root.addEventListener(ev, resume, { passive: true });
+    });
+
+    // Pause when the tab isn't visible — saves battery and prevents jumps.
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) pause();
+      else resume();
+    });
+  }
+
+  /* -----------------------------------------------------------------
+     Smooth scroll for in-page anchor links.
+     ----------------------------------------------------------------- */
+  function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+
+})();
