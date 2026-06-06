@@ -12,11 +12,13 @@ window.BAY_GREENERY_CONFIG = {
   bookingFormUrl: 'https://docs.google.com/forms/d/e/REPLACE_WITH_FORM_ID/viewform',
 
   /* Public Google Reviews page (your Google Business profile).
-     This is what people see when they click "Read All Reviews". */
-  googleReviewsUrl: 'https://www.google.com/maps/place/Bay+Greenery+San+Jose',
+     This is what people see when they click "Read All Reviews".
+     Leave blank ('') to hide the "Read All Google Reviews" button site-wide. */
+  googleReviewsUrl: '',
 
-  /* Instagram profile — linked from the portfolio section. */
-  instagramUrl: 'https://www.instagram.com/baygreenery',
+  /* Instagram profile — linked from the portfolio section.
+     Leave blank ('') to hide the Instagram link site-wide. */
+  instagramUrl: '',
 
   /* Google Analytics 4 measurement ID — e.g. 'G-XXXXXXXXXX'.
      Leave blank to disable analytics. */
