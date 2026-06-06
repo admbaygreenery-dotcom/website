@@ -32,20 +32,40 @@
       }
     });
 
-    // Google Reviews link
+    // Google Reviews link — hide if not configured so we don't ship a dead link.
     document.querySelectorAll('.js-reviews-link').forEach(function (el) {
-      if (config.googleReviewsUrl) el.setAttribute('href', config.googleReviewsUrl);
+      if (config.googleReviewsUrl) {
+        el.setAttribute('href', config.googleReviewsUrl);
+      } else {
+        hideElementOrParent(el);
+      }
     });
 
-    // Instagram link
+    // Instagram link — hide if not configured.
     document.querySelectorAll('.js-instagram-link').forEach(function (el) {
-      if (config.instagramUrl) el.setAttribute('href', config.instagramUrl);
+      if (config.instagramUrl) {
+        el.setAttribute('href', config.instagramUrl);
+      } else {
+        hideElementOrParent(el);
+      }
     });
 
     // License text
     document.querySelectorAll('[data-config="license"]').forEach(function (el) {
       if (config.license) el.textContent = config.license;
     });
+  }
+
+  // For inline links inside a "More on Instagram — @baygreenery" sentence we hide
+  // the whole paragraph so we don't leave an orphaned em-dash. For standalone CTA
+  // buttons we hide just the element itself.
+  function hideElementOrParent(el) {
+    const parent = el.parentElement;
+    if (parent && parent.tagName === 'P' && parent.children.length === 1) {
+      parent.style.display = 'none';
+    } else {
+      el.style.display = 'none';
+    }
   }
 
   /* -----------------------------------------------------------------
