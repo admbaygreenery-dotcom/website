@@ -11,9 +11,10 @@ window.BAY_GREENERY_CONFIG = {
      Use the regular form link, NOT the "shortened" one. */
   bookingFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfeggzXtM4JuPyvAyuPcIi4_ynukz8hmkh02rMgCoelk4eL6A/viewform',
 
-  /* Public Google Business profile — used by the "Read All Google Reviews" button.
+  /* Public Google Business profile reviews tab — used by the "Read All Google Reviews" button.
+     The `!1b1` segment in the URL opens straight to the reviews tab.
      Leave blank ('') to hide that button site-wide. */
-  googleReviewsUrl: 'https://g.page/r/CWeJ1tEOuKJvEAI/',
+  googleReviewsUrl: 'https://www.google.com/maps/place/Bay+Greenery/@37.3287405,-121.9446305,10z/data=!4m8!3m7!1s0xaf1c14edcf7a2ae7:0x6fa2b80ed1d68967!8m2!3d37.3287405!4d-121.9446305!9m1!1b1!16s%2Fg%2F11ykh7mqjj',
 
   /* Direct "leave a review" link — Google opens its review composer for your profile.
      Leave blank ('') to hide the "Leave a Review" button. */
