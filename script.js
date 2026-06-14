@@ -236,10 +236,11 @@
   /* -----------------------------------------------------------------
      Gallery lightbox — vanilla, no library.
      Any element with .gallery-tile and a data-src attribute opens the
-     larger image in a full-bleed overlay.
+     larger image in a full-bleed overlay with prev/next arrows.
+     Keyboard: Esc closes, ← / → navigate.
      ----------------------------------------------------------------- */
   function initGalleryLightbox() {
-    const tiles = document.querySelectorAll('.gallery-tile[data-src]');
+    const tiles = Array.from(document.querySelectorAll('.gallery-tile[data-src]'));
     if (!tiles.length) return;
 
     const overlay = document.createElement('div');
@@ -249,15 +250,30 @@
     overlay.setAttribute('aria-hidden', 'true');
     overlay.innerHTML =
       '<button type="button" class="lightbox-close" aria-label="Close">&times;</button>' +
-      '<img class="lightbox-img" alt="" />';
+      '<button type="button" class="lightbox-nav lightbox-prev" aria-label="Previous photo">&#8249;</button>' +
+      '<img class="lightbox-img" alt="" />' +
+      '<button type="button" class="lightbox-nav lightbox-next" aria-label="Next photo">&#8250;</button>' +
+      '<div class="lightbox-counter" aria-live="polite"></div>';
     document.body.appendChild(overlay);
 
     const img = overlay.querySelector('.lightbox-img');
     const closeBtn = overlay.querySelector('.lightbox-close');
+    const prevBtn = overlay.querySelector('.lightbox-prev');
+    const nextBtn = overlay.querySelector('.lightbox-next');
+    const counter = overlay.querySelector('.lightbox-counter');
 
-    function open(src, alt) {
-      img.setAttribute('src', src);
-      img.setAttribute('alt', alt || '');
+    let currentIndex = 0;
+
+    function show(index) {
+      currentIndex = (index + tiles.length) % tiles.length;
+      const tile = tiles[currentIndex];
+      img.setAttribute('src', tile.getAttribute('data-src'));
+      img.setAttribute('alt', tile.getAttribute('aria-label') || '');
+      counter.textContent = (currentIndex + 1) + ' / ' + tiles.length;
+    }
+
+    function open(index) {
+      show(index);
       overlay.classList.add('is-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
@@ -270,18 +286,29 @@
       document.body.style.overflow = '';
     }
 
-    tiles.forEach(function (tile) {
-      tile.addEventListener('click', function () {
-        open(tile.getAttribute('data-src'), tile.getAttribute('aria-label') || '');
-      });
+    tiles.forEach(function (tile, i) {
+      tile.addEventListener('click', function () { open(i); });
     });
+
+    prevBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      show(currentIndex - 1);
+    });
+    nextBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      show(currentIndex + 1);
+    });
+    closeBtn.addEventListener('click', close);
 
     overlay.addEventListener('click', function (e) {
       if (e.target === overlay) close();
     });
-    closeBtn.addEventListener('click', close);
+
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
+      if (!overlay.classList.contains('is-open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(currentIndex - 1);
+      else if (e.key === 'ArrowRight') show(currentIndex + 1);
     });
   }
 
