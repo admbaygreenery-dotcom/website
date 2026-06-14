@@ -9,15 +9,17 @@ window.BAY_GREENERY_CONFIG = {
   /* The Google Form that customers fill out to book a service.
      Find this URL in Google Forms by clicking "Send" → link icon.
      Use the regular form link, NOT the "shortened" one. */
-  bookingFormUrl: 'https://docs.google.com/forms/d/e/REPLACE_WITH_FORM_ID/viewform',
+  bookingFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfeggzXtM4JuPyvAyuPcIi4_ynukz8hmkh02rMgCoelk4eL6A/viewform',
 
-  /* Public Google Reviews page (your Google Business profile).
-     This is what people see when they click "Read All Reviews".
-     Leave blank ('') to hide the "Read All Google Reviews" button site-wide. */
-  googleReviewsUrl: '',
+  /* Public Google Business profile — used by the "Read All Google Reviews" button.
+     Leave blank ('') to hide that button site-wide. */
+  googleReviewsUrl: 'https://g.page/r/CWeJ1tEOuKJvEAI/',
 
-  /* Instagram profile — linked from the portfolio section.
-     Leave blank ('') to hide the Instagram link site-wide. */
+  /* Direct "leave a review" link — Google opens its review composer for your profile.
+     Leave blank ('') to hide the "Leave a Review" button. */
+  leaveReviewUrl: 'https://g.page/r/CWeJ1tEOuKJvEAI/review',
+
+  /* Instagram profile. Leave blank ('') to hide the link. */
   instagramUrl: '',
 
   /* Google Analytics 4 measurement ID — e.g. 'G-XXXXXXXXXX'.
