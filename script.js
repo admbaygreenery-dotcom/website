@@ -1,8 +1,9 @@
 /* ====================================================================
    Bay Greenery — site scripts
-   - Wires up config.js values to links across the site
+   - Wires up config.js values to links and footer fields across the site
    - Services carousel (advances by 3 on desktop, 2 on tablet, 1 on mobile)
    - Reviews auto-scroll with pause on hover / interaction
+   - Project gallery lightbox
    - Smooth scroll for # anchors
    ==================================================================== */
 
@@ -16,6 +17,7 @@
     injectAnalytics();
     initServicesCarousel();
     initReviewsAutoScroll();
+    initGalleryLightbox();
     initSmoothScroll();
   });
 
@@ -32,10 +34,23 @@
       }
     });
 
-    // Google Reviews link — hide if not configured so we don't ship a dead link.
+    // Google Reviews "Read all" — hide if not configured.
     document.querySelectorAll('.js-reviews-link').forEach(function (el) {
       if (config.googleReviewsUrl) {
         el.setAttribute('href', config.googleReviewsUrl);
+        el.setAttribute('target', '_blank');
+        el.setAttribute('rel', 'noopener');
+      } else {
+        hideElementOrParent(el);
+      }
+    });
+
+    // "Leave a Review" CTA — hide if not configured.
+    document.querySelectorAll('.js-leave-review-link').forEach(function (el) {
+      if (config.leaveReviewUrl) {
+        el.setAttribute('href', config.leaveReviewUrl);
+        el.setAttribute('target', '_blank');
+        el.setAttribute('rel', 'noopener');
       } else {
         hideElementOrParent(el);
       }
@@ -50,15 +65,37 @@
       }
     });
 
+    // Footer contact wiring
+    document.querySelectorAll('.js-email-link').forEach(function (el) {
+      if (config.email) {
+        el.setAttribute('href', 'mailto:' + config.email);
+        el.textContent = config.email;
+      }
+    });
+
+    document.querySelectorAll('.js-phone-link').forEach(function (el) {
+      if (config.phoneTel) el.setAttribute('href', 'tel:' + config.phoneTel);
+      if (config.phone) el.textContent = config.phone;
+    });
+
+    document.querySelectorAll('[data-config="address"]').forEach(function (el) {
+      if (config.address) el.textContent = config.address;
+    });
+
+    document.querySelectorAll('[data-config="service-area"]').forEach(function (el) {
+      if (Array.isArray(config.serviceArea)) {
+        el.textContent = config.serviceArea.join(' • ');
+      }
+    });
+
     // License text
     document.querySelectorAll('[data-config="license"]').forEach(function (el) {
       if (config.license) el.textContent = config.license;
     });
   }
 
-  // For inline links inside a "More on Instagram — @baygreenery" sentence we hide
-  // the whole paragraph so we don't leave an orphaned em-dash. For standalone CTA
-  // buttons we hide just the element itself.
+  // For inline links inside a single-link <p> we hide the whole paragraph so we
+  // don't leave an orphaned em-dash. For standalone buttons we hide just the el.
   function hideElementOrParent(el) {
     const parent = el.parentElement;
     if (parent && parent.tagName === 'P' && parent.children.length === 1) {
@@ -136,7 +173,6 @@
     });
 
     window.addEventListener('resize', updateTrack);
-    // Run once layout settles (fonts/images can shift card widths)
     updateTrack();
     setTimeout(updateTrack, 100);
     window.addEventListener('load', updateTrack);
@@ -156,12 +192,10 @@
     const cards = track.querySelectorAll('.review-card');
     if (!cards.length) return;
 
-    // Duplicate the cards so the loop seam isn't visible.
     cards.forEach(function (card) {
       track.appendChild(card.cloneNode(true));
     });
 
-    // Reset the CSS transition so we can drive movement frame-by-frame.
     track.style.transition = 'none';
     let offset = 0;
     let paused = false;
@@ -174,7 +208,7 @@
       lastTimestamp = timestamp;
       if (!paused) {
         offset += speedPxPerSecond * dt;
-        const trackWidth = track.scrollWidth / 2; // we cloned once, so loop at half
+        const trackWidth = track.scrollWidth / 2;
         if (offset >= trackWidth) offset -= trackWidth;
         track.style.transform = 'translateX(-' + offset + 'px)';
       }
@@ -193,10 +227,61 @@
       root.addEventListener(ev, resume, { passive: true });
     });
 
-    // Pause when the tab isn't visible — saves battery and prevents jumps.
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) pause();
       else resume();
+    });
+  }
+
+  /* -----------------------------------------------------------------
+     Gallery lightbox — vanilla, no library.
+     Any element with .gallery-tile and a data-src attribute opens the
+     larger image in a full-bleed overlay.
+     ----------------------------------------------------------------- */
+  function initGalleryLightbox() {
+    const tiles = document.querySelectorAll('.gallery-tile[data-src]');
+    if (!tiles.length) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML =
+      '<button type="button" class="lightbox-close" aria-label="Close">&times;</button>' +
+      '<img class="lightbox-img" alt="" />';
+    document.body.appendChild(overlay);
+
+    const img = overlay.querySelector('.lightbox-img');
+    const closeBtn = overlay.querySelector('.lightbox-close');
+
+    function open(src, alt) {
+      img.setAttribute('src', src);
+      img.setAttribute('alt', alt || '');
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      img.setAttribute('src', '');
+      document.body.style.overflow = '';
+    }
+
+    tiles.forEach(function (tile) {
+      tile.addEventListener('click', function () {
+        open(tile.getAttribute('data-src'), tile.getAttribute('aria-label') || '');
+      });
+    });
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) close();
+    });
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
     });
   }
 

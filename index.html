@@ -3,29 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bay Greenery | San Jose Landscape Design, Build & Maintenance</title>
-  <meta name="description" content="Bay Greenery is a licensed San Jose landscape contractor serving the South Bay and Peninsula. Design and build, sod installation, irrigation, artificial turf, lighting, retaining walls, fences and pavers. CA License C-27 #1146610.">
-  <meta name="keywords" content="landscaping San Jose, Bay Area greenery, landscape design, artificial turf, irrigation, retaining walls, pavers, landscape lighting, sod installation, fences">
+  <title>Bay Greenery — Landscape Construction, Maintenance & Repair | San Jose</title>
+  <meta name="description" content="Bay Greenery is a licensed San Jose landscape contractor serving the South Bay and Peninsula. Landscape projects, design and build, repair service, maintenance, cleanup and restoration, and consultations. CA License C-27 #1146610.">
 
-  <!-- Open Graph for link previews -->
-  <meta property="og:title" content="Bay Greenery | San Jose Landscape Design, Build & Maintenance">
-  <meta property="og:description" content="Licensed San Jose landscape contractor. Design, build, irrigation, turf, lighting, walls, fences and pavers across the South Bay and Peninsula.">
+  <meta property="og:title" content="Bay Greenery — San Jose Landscape Contractor">
+  <meta property="og:description" content="Construction, maintenance, and repairs for your outdoor space. Serving the South Bay and Peninsula.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.baygreenery.com">
-  <meta property="og:image" content="images/landscape1.jpg">
 
-  <link rel="icon" href="images/logotype.png" type="image/png">
-  <link href="https://fonts.cdnfonts.com/css/harabara" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="images/favicon.png">
 
-  <!-- LocalBusiness schema for Google local SEO (San Jose, Bay Area). -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LandscapeService",
     "name": "Bay Greenery",
-    "image": "https://www.baygreenery.com/images/logotype.png",
+    "image": "https://www.baygreenery.com/images/logo-baygreenery.png",
     "@id": "https://www.baygreenery.com",
     "url": "https://www.baygreenery.com",
     "telephone": "+1-408-454-8078",
@@ -39,172 +31,133 @@
       "addressCountry": "US"
     },
     "areaServed": ["San Jose", "South Bay", "Peninsula", "Bay Area"],
-    "description": "Licensed San Jose landscape contractor. Landscape design and build, sod installation, irrigation systems, artificial turf, landscape lighting, retaining walls, fences and pavers.",
+    "description": "Licensed San Jose landscape contractor offering construction, maintenance, and repairs for outdoor spaces.",
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "Landscaping Services",
+      "name": "Landscape Services",
       "itemListElement": [
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landscape Design & Build"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Sod Installation"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Irrigation Systems"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Artificial Turf"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landscape Lighting"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Retaining Walls"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Fences"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Pavers"}}
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landscape Projects"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Design to Build"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Repair Service"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landscape Maintenance"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landscape Cleanup and Restoration"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Consultations"}}
       ]
     }
   }
   </script>
 
-  <!-- Google Analytics placeholder. Populated automatically from config.js if a measurement ID is set. -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- ============ 1. HERO / SPLASH ============ -->
-  <section id="hero" class="hero">
+  <!-- ============================================================
+       HERO / SPLASH
+       ============================================================ -->
+  <section class="hero">
     <div class="hero-content">
-      <img src="images/logotype.png" alt="Bay Greenery" class="hero-logo">
-      <p class="hero-license" data-config="license">CA License C-27 #1146610</p>
-      <a href="#book" class="hero-cta js-booking-link">
+      <div class="hero-top">
+        <img class="hero-logo" src="images/logo-baygreenery.png" alt="Bay Greenery">
+        <p class="hero-license" data-config="license">CA License C-27 #1146610</p>
+      </div>
+      <a class="hero-cta js-booking-link" href="#">
         Book a Service
-        <span class="hero-cta-arrow">&rarr;</span>
+        <span class="hero-cta-arrow" aria-hidden="true">&rarr;</span>
       </a>
     </div>
   </section>
 
-  <!-- ============ 2. SERVICES CAROUSEL ============ -->
-  <section id="services" class="section services-section">
+  <!-- ============================================================
+       SERVICES — 6 tiles, all linking to the booking form
+       ============================================================ -->
+  <section class="section services-section" id="services">
     <div class="container">
       <div class="section-header">
-        <span class="section-badge">OUR SERVICES</span>
-        <h2 class="section-title">Built for Bay Area Outdoors</h2>
-        <p class="section-subtitle">From design to install, we handle every part of your outdoor space — built to last in the Bay Area climate.</p>
+        <h2 class="section-title">Services for All Your Landscape Needs</h2>
+        <p class="section-subtitle">Construction, Maintenance &amp; Repairs for Your Outdoor Space</p>
       </div>
 
       <div class="carousel" id="servicesCarousel">
         <div class="carousel-viewport">
           <div class="carousel-track">
 
-            <!-- Card 1 -->
-            <article class="service-card">
-              <div class="service-card-image" style="background-image: url('images/landscape1.jpg')"></div>
+            <a class="service-card js-booking-link" href="#">
+              <div class="service-card-image" style="background-image:url('images/tile-landscape-projects.jpg');"></div>
               <div class="service-card-body">
-                <h3 class="service-card-title">Landscape Design &amp; Build</h3>
-                <p class="service-card-desc">From a clean slate or a full reimagining, we plan, draw and build outdoor spaces that fit your lifestyle and the Bay Area climate.</p>
+                <h3 class="service-card-title">Landscape Projects</h3>
+                <p class="service-card-desc">We install a wide variety of landscape systems and features both functional and aesthetic. We'll work with you to find the best approach for the needs of you and your property. Bring us your ideas and we'll bring them to life.</p>
                 <ul class="service-card-list">
-                  <li>Custom layouts &amp; visual designs</li>
-                  <li>Drought-tolerant plant selection</li>
-                  <li>Full installation by our team</li>
+                  <li>Solutions tailored to your needs</li>
+                  <li>Projects large and small</li>
+                  <li>Click for a full list of offerings</li>
                 </ul>
-                <a href="landscape-design.html" class="service-card-btn">View Service <span class="btn-arrow-small">&rarr;</span></a>
               </div>
-            </article>
+            </a>
 
-            <!-- Card 2 -->
-            <article class="service-card">
-              <div class="service-card-image" style="background-image: url('images/landscape2.jpg')"></div>
+            <a class="service-card js-booking-link" href="#">
+              <div class="service-card-image" style="background-image:url('images/tile-design-to-build.jpg');"></div>
               <div class="service-card-body">
-                <h3 class="service-card-title">Sod Installation</h3>
-                <p class="service-card-desc">A healthy, even lawn starts under the surface. We grade, prep and roll fresh sod that takes root quickly and stays green for years.</p>
+                <h3 class="service-card-title">Design to Build</h3>
+                <p class="service-card-desc">We apply our knowledge, forethought, and commitment to quality throughout every stage of the landscape remodel process. Every project is thoughtfully planned and carefully built to create landscapes that are aesthetically compelling, functional, and built to last.</p>
                 <ul class="service-card-list">
-                  <li>Soil prep &amp; grading</li>
-                  <li>Premium sod varieties</li>
-                  <li>Watering &amp; care guidance</li>
+                  <li>Landscape planning &amp; concept development</li>
+                  <li>Planting, irrigation &amp; hardscape installation</li>
+                  <li>Enhanced beauty, function &amp; enjoyment</li>
                 </ul>
-                <a href="sod-installation.html" class="service-card-btn">View Service <span class="btn-arrow-small">&rarr;</span></a>
               </div>
-            </article>
+            </a>
 
-            <!-- Card 3 -->
-            <article class="service-card">
-              <div class="service-card-image" style="background-image: url('images/landscape3.jpg')"></div>
+            <a class="service-card js-booking-link" href="#">
+              <div class="service-card-image" style="background-image:url('images/tile-repair-service.jpg');"></div>
               <div class="service-card-body">
-                <h3 class="service-card-title">Irrigation Systems</h3>
-                <p class="service-card-desc">Smart, efficient watering that keeps your landscape healthy without wasting a drop. Drip lines, sprinklers and modern controllers.</p>
+                <h3 class="service-card-title">Repair Service</h3>
+                <p class="service-card-desc">Thoughtful problem-solving leads to reliable repairs. We provide practical, effective solutions that restore performance and extend the life of your landscape systems.</p>
                 <ul class="service-card-list">
-                  <li>Drip &amp; smart controller installs</li>
-                  <li>Lawn &amp; bed sprinkler design</li>
-                  <li>Repairs &amp; seasonal tune-ups</li>
+                  <li>Irrigation troubleshooting &amp; repair</li>
+                  <li>Landscape feature repairs</li>
+                  <li>Problem-solving &amp; corrective solutions</li>
                 </ul>
-                <a href="irrigation.html" class="service-card-btn">View Service <span class="btn-arrow-small">&rarr;</span></a>
               </div>
-            </article>
+            </a>
 
-            <!-- Card 4 -->
-            <article class="service-card">
-              <div class="service-card-image" style="background-image: url('images/thumb1.jpg')"></div>
+            <a class="service-card js-booking-link" href="#">
+              <div class="service-card-image" style="background-image:url('images/tile-maintenance.jpg');"></div>
               <div class="service-card-body">
-                <h3 class="service-card-title">Artificial Turf</h3>
-                <p class="service-card-desc">A lush, low-maintenance lawn year round. Pet-safe, kid-safe turf that looks great in every season with no watering required.</p>
+                <h3 class="service-card-title">Landscape Maintenance</h3>
+                <p class="service-card-desc">Landscape maintenance that is a cut above your mow and blower. We offer maintenance service that is tailored to the unique needs of your landscape — combining horticultural knowledge, attention to detail, and pride of workmanship to help your landscape thrive.</p>
                 <ul class="service-card-list">
-                  <li>Pet- and kid-friendly options</li>
-                  <li>Drainage &amp; sub-base done right</li>
-                  <li>Multi-year warranty options</li>
+                  <li>Customized maintenance programs</li>
+                  <li>Wide range of optional services</li>
+                  <li>Communicative &amp; dependable</li>
                 </ul>
-                <a href="artificial-turf.html" class="service-card-btn">View Service <span class="btn-arrow-small">&rarr;</span></a>
               </div>
-            </article>
+            </a>
 
-            <!-- Card 5 -->
-            <article class="service-card">
-              <div class="service-card-image" style="background-image: url('images/thumb2.jpg')"></div>
+            <a class="service-card js-booking-link" href="#">
+              <div class="service-card-image" style="background-image:url('images/tile-cleanup.jpg');"></div>
               <div class="service-card-body">
-                <h3 class="service-card-title">Landscape Lighting</h3>
-                <p class="service-card-desc">Extend your outdoor hours. Path, accent and security lighting designed to highlight your home and bring your yard to life after dark.</p>
+                <h3 class="service-card-title">Cleanup &amp; Restoration</h3>
+                <p class="service-card-desc">Whether your landscape has become overgrown, neglected, or you're looking for a clean slate, we provide thorough cleanup and restoration services that restore order and help bring your outdoor spaces back to life.</p>
                 <ul class="service-card-list">
-                  <li>Path, accent &amp; uplighting</li>
-                  <li>Low-voltage LED systems</li>
-                  <li>Timer &amp; smart controls</li>
+                  <li>Seasonal &amp; one-time cleanups</li>
+                  <li>Landscape detailing</li>
+                  <li>Clean-slate clearouts</li>
                 </ul>
-                <a href="landscape-lighting.html" class="service-card-btn">View Service <span class="btn-arrow-small">&rarr;</span></a>
               </div>
-            </article>
+            </a>
 
-            <!-- Card 6 -->
-            <article class="service-card">
-              <div class="service-card-image" style="background-image: url('images/landscape1.jpg')"></div>
+            <a class="service-card js-booking-link" href="#">
+              <div class="service-card-image" style="background-image:url('images/tile-consultations.jpg');"></div>
               <div class="service-card-body">
-                <h3 class="service-card-title">Retaining Walls</h3>
-                <p class="service-card-desc">Sloped yards turned into useful, beautiful terraces. Engineered walls that hold up for the long haul and shape the space.</p>
+                <h3 class="service-card-title">Consultations</h3>
+                <p class="service-card-desc">Sometimes the right advice is the most valuable service. Whether you're planning a project, evaluating a problem, or exploring possibilities, our consultations help you make informed decisions and move forward with confidence.</p>
                 <ul class="service-card-list">
-                  <li>Block, stone &amp; concrete options</li>
-                  <li>Proper drainage built in</li>
-                  <li>Permitted &amp; code-compliant builds</li>
+                  <li>Planning &amp; problem solving</li>
+                  <li>Professional second opinions</li>
+                  <li>Site evaluations</li>
                 </ul>
-                <a href="retaining-walls.html" class="service-card-btn">View Service <span class="btn-arrow-small">&rarr;</span></a>
               </div>
-            </article>
-
-            <!-- Card 7 -->
-            <article class="service-card">
-              <div class="service-card-image" style="background-image: url('images/landscape2.jpg')"></div>
-              <div class="service-card-body">
-                <h3 class="service-card-title">Fences</h3>
-                <p class="service-card-desc">Privacy, security and curb appeal in one. Wood, composite and metal fencing designed to match your home and last in the elements.</p>
-                <ul class="service-card-list">
-                  <li>Wood, composite &amp; metal</li>
-                  <li>Custom heights &amp; finishes</li>
-                  <li>Gate hardware &amp; install</li>
-                </ul>
-                <a href="fences.html" class="service-card-btn">View Service <span class="btn-arrow-small">&rarr;</span></a>
-              </div>
-            </article>
-
-            <!-- Card 8 -->
-            <article class="service-card">
-              <div class="service-card-image" style="background-image: url('images/landscape3.jpg')"></div>
-              <div class="service-card-body">
-                <h3 class="service-card-title">Pavers</h3>
-                <p class="service-card-desc">Patios, walkways and driveways built on a solid base. We install pavers that stay level and look great for decades.</p>
-                <ul class="service-card-list">
-                  <li>Patios, paths &amp; driveways</li>
-                  <li>Permeable options available</li>
-                  <li>Proper base &amp; edge restraints</li>
-                </ul>
-                <a href="pavers.html" class="service-card-btn">View Service <span class="btn-arrow-small">&rarr;</span></a>
-              </div>
-            </article>
+            </a>
 
           </div>
         </div>
@@ -217,13 +170,14 @@
     </div>
   </section>
 
-  <!-- ============ 3. REVIEWS CAROUSEL (glassy, auto-scroll) ============ -->
-  <section id="reviews" class="section reviews-section">
+  <!-- ============================================================
+       REVIEWS
+       ============================================================ -->
+  <section class="section reviews-section" id="reviews">
     <div class="container">
       <div class="section-header">
-        <span class="section-badge"><span>&#9733;</span> CLIENT REVIEWS</span>
         <h2 class="section-title">What Our Clients Say</h2>
-        <p class="section-subtitle">Real feedback from homeowners across the South Bay and Peninsula.</p>
+        <p class="section-subtitle">Real feedback from clients in the South Bay and Peninsula.</p>
       </div>
 
       <div class="reviews-frame" id="reviewsCarousel">
@@ -231,63 +185,39 @@
           <div class="reviews-track">
 
             <article class="review-card">
-              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p class="review-text">"Bay Greenery turned a tired backyard into the favorite spot in our house. The crew was on time every day and the finish work was excellent."</p>
-              <div class="review-meta">
-                <span class="review-name">Sarah</span>
-                <span class="review-location">San Jose, CA</span>
-                <span class="review-service">Landscape Design &amp; Build</span>
-              </div>
+              <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="review-text">Nathan was/is tremendous. We moved into a rental which needed quite a bit of yard/garden work which was overgrown with weeds. Every step of the way Nathan walked us through our options and made suggestions that were pocketbook friendly. The work he did would have taken me many days to accomplish and I know would not look nearly as nice. For the work he does the rates are very competitive. I highly recommend Bay Greenery for your landscaping needs.</p>
+              <div class="review-meta"><span class="review-name">Sean P.</span></div>
             </article>
 
             <article class="review-card">
-              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p class="review-text">"Nathan listened to what we needed and came back with a plan that fit our budget. Our irrigation finally works the way it should."</p>
-              <div class="review-meta">
-                <span class="review-name">Michael</span>
-                <span class="review-location">Cupertino, CA</span>
-                <span class="review-service">Irrigation Systems</span>
-              </div>
+              <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="review-text">Bay Greenery did a beautiful job transforming my front yard. They were easy to work with, communicative, knowledgeable, and dependable throughout the entire process. Neighbors often stop to admire the yard. We are so pleased! Highly recommend for all landscaping projects — big or small!</p>
+              <div class="review-meta"><span class="review-name">Gavin R.</span></div>
             </article>
 
             <article class="review-card">
-              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p class="review-text">"We have two big dogs and the artificial turf they installed has held up beautifully. No more mud, no more brown spots."</p>
-              <div class="review-meta">
-                <span class="review-name">Priya</span>
-                <span class="review-location">Mountain View, CA</span>
-                <span class="review-service">Artificial Turf</span>
-              </div>
+              <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="review-text">We started using Bay Greenery for our yard maintenance last year, and it has been a great experience. Nathan is knowledgeable, a great communicator, and completely transparent about pricing. He figures out what needs to be done and makes our yard look fabulous. Highly recommend!</p>
+              <div class="review-meta"><span class="review-name">Elizabeth W.</span></div>
             </article>
 
             <article class="review-card">
-              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p class="review-text">"The new retaining wall looks like it has always been there. Solid work, great drainage, and the slope is finally usable."</p>
-              <div class="review-meta">
-                <span class="review-name">David</span>
-                <span class="review-location">Los Gatos, CA</span>
-                <span class="review-service">Retaining Walls</span>
-              </div>
+              <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="review-text">Bay Greenery is top notch. No project is too big or small and it's always professionally done. I highly recommend them.</p>
+              <div class="review-meta"><span class="review-name">Adam B.</span></div>
             </article>
 
             <article class="review-card">
-              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p class="review-text">"Our front yard pavers are the first thing every visitor compliments. Clean lines, beautiful color, and zero settling a year later."</p>
-              <div class="review-meta">
-                <span class="review-name">Jennifer</span>
-                <span class="review-location">Palo Alto, CA</span>
-                <span class="review-service">Pavers</span>
-              </div>
+              <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="review-text">I am very happy with his work. Nathan is fast while he works but very thorough. He gives me great ideas and suggestions.</p>
+              <div class="review-meta"><span class="review-name">Lorraine F.</span></div>
             </article>
 
             <article class="review-card">
-              <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p class="review-text">"The landscape lighting completely changed how we use the yard at night. Subtle, warm and exactly what we asked for."</p>
-              <div class="review-meta">
-                <span class="review-name">Carlos</span>
-                <span class="review-location">Sunnyvale, CA</span>
-                <span class="review-service">Landscape Lighting</span>
-              </div>
+              <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="review-text">★★★★★ — 5-star Google review.</p>
+              <div class="review-meta"><span class="review-name">Mir Hamza M.</span></div>
             </article>
 
           </div>
@@ -295,75 +225,87 @@
       </div>
 
       <div class="reviews-cta-wrap">
-        <a href="#" class="reviews-cta js-reviews-link" target="_blank" rel="noopener">
-          Read All Google Reviews &rarr;
+        <a class="reviews-cta js-reviews-link" href="#">Read All Google Reviews <span aria-hidden="true">&rarr;</span></a>
+        <a class="leave-review-cta js-leave-review-link" href="#">
+          Leave a Review
+          <img class="leave-review-google-logo" src="images/google-logo.png" alt="Google">
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ============ 4. PORTFOLIO TEASER ============ -->
-  <section id="portfolio" class="section portfolio-section">
+  <!-- ============================================================
+       PROJECT GALLERY teaser
+       ============================================================ -->
+  <section class="section gallery-section" id="gallery">
     <div class="container">
       <div class="section-header">
-        <span class="section-badge">PORTFOLIO</span>
-        <h2 class="section-title">Recent Projects</h2>
-        <p class="section-subtitle">A look at how we've reimagined Bay Area yards.</p>
+        <h2 class="section-title">Project Gallery</h2>
+        <p class="section-subtitle">Our recent endeavours.</p>
       </div>
 
-      <div class="portfolio-teaser">
-        <a href="portfolio.html" class="portfolio-thumb" style="background-image: url('images/landscape1.jpg')" aria-label="View project"></a>
-        <a href="portfolio.html" class="portfolio-thumb" style="background-image: url('images/landscape2.jpg')" aria-label="View project"></a>
-        <a href="portfolio.html" class="portfolio-thumb" style="background-image: url('images/landscape3.jpg')" aria-label="View project"></a>
+      <div class="gallery-grid">
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-02.jpg');" aria-label="Project gallery"></a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-11.jpg');" aria-label="Project gallery"></a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-20.jpg');" aria-label="Project gallery"></a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-07.jpg');" aria-label="Project gallery"></a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-17.jpg');" aria-label="Project gallery"></a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-23.jpg');" aria-label="Project gallery"></a>
       </div>
 
-      <div class="portfolio-cta-wrap">
-        <a href="portfolio.html" class="portfolio-cta">See Full Portfolio &rarr;</a>
-        <p class="portfolio-social">
-          More on Instagram &mdash;
-          <a href="#" class="js-instagram-link" target="_blank" rel="noopener">@baygreenery</a>
-        </p>
+      <div class="gallery-cta-wrap">
+        <a class="gallery-cta" href="portfolio.html">See Full Gallery <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
 
-  <!-- ============ 5. ABOUT THE OWNER ============ -->
-  <section id="about" class="section about-section">
+  <!-- ============================================================
+       ABOUT THE OWNER
+       ============================================================ -->
+  <section class="section about-section" id="about">
     <div class="container">
       <div class="section-header">
-        <span class="section-badge">MEET THE OWNER</span>
-        <h2 class="section-title">Hi, I'm Nathan</h2>
+        <h2 class="section-title">About the Owner</h2>
       </div>
-      <div class="about-content">
-        <p><strong>Ten years in the industry and still happiest outside.</strong> I started Bay Greenery to bring the kind of careful, personal landscape work that's hard to find &mdash; the kind where someone actually walks the yard with you, hears what you need, and stays involved from the first sketch to the last sprinkler head.</p>
-        <p>I grew up loving the outdoors and that hasn't changed. When I'm not on a job site you'll usually find me on a Bay Area trail, in the garden growing whatever's in season, or testing a new recipe in the kitchen with what I just picked.</p>
-        <p>Every yard we touch gets the same approach: thoughtful design, honest work, and a finish I'd be proud to call my own.</p>
+
+      <div class="about-grid">
+        <img class="about-portrait" src="images/about-nathan.jpg" alt="Nathan, owner of Bay Greenery">
+        <div class="about-content">
+          <p>My love of plants and the desire to cultivate beautiful and inspirational spaces is why I am here. I believe every space has the potential to become a place that enriches daily life. Helping clients create those spaces is what makes this work meaningful to me.</p>
+          <p>I take pride in my work and bring that sentiment into every project and task. The opportunity to make a positive impact for my clients motivates me to continually expand my knowledge, refine my skills, and pursue higher standards in everything I do. I believe there is always more to learn, and that commitment to growth helps me better serve the people who place their trust in me.</p>
+          <p>Outside of work, I enjoy exploring new places, spending time with my fiancée and friends, and pursuing my favorite hobbies. Bucket list items include seeing every national park, being on <em>Survivor</em>, DM'ing a years-long D&amp;D campaign, and landscaping a home of my own.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ 6. CONTACT FOOTER ============ -->
-  <footer id="contact" class="footer">
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
     <div class="container">
-      <h2 class="section-title">Contact</h2>
       <div class="footer-grid">
+
         <div class="footer-block">
           <h3>Get in Touch</h3>
-          <a href="mailto:ops@baygreenery.com" data-config-attr="href" data-config-attr-value="mailto:email">ops@baygreenery.com</a>
-          <a href="tel:+14084548078">(408) 454-8078</a>
-          <p>San Jose, CA 95128</p>
+          <a class="js-email-link" href="mailto:ops@baygreenery.com">ops@baygreenery.com</a>
+          <a class="js-phone-link" href="tel:+14084548078">(408) 454-8078</a>
+          <p data-config="address">San Jose, CA 95128</p>
         </div>
+
         <div class="footer-block">
           <h3>Service Area</h3>
-          <p>South Bay</p>
-          <p>Peninsula</p>
+          <p data-config="service-area">South Bay • Peninsula</p>
         </div>
+
         <div class="footer-block">
-          <h3>Book a Service</h3>
-          <p><a href="#" class="js-booking-link">Start your project &rarr;</a></p>
-          <p><a href="#" class="js-reviews-link" target="_blank" rel="noopener">Read Google reviews</a></p>
+          <h3>Get Started</h3>
+          <a class="js-booking-link" href="#">Book a Service &rarr;</a>
+          <a class="js-reviews-link" href="#">Google Reviews &rarr;</a>
         </div>
+
       </div>
+
       <div class="footer-license" data-config="license">CA License C-27 #1146610</div>
     </div>
   </footer>
