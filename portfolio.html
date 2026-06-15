@@ -3,107 +3,387 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Portfolio | Bay Greenery | San Jose, CA</title>
-  <meta name="description" content="A look at Bay Greenery's recent landscape projects across San Jose, the South Bay and Peninsula. Design and build, irrigation, hardscape and more.">
-  <link rel="icon" href="images/logotype.png" type="image/png">
-  <link href="https://fonts.cdnfonts.com/css/harabara" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Project Gallery — Bay Greenery</title>
+  <meta name="description" content="A gallery of recent landscape projects by Bay Greenery in San Jose and across the South Bay and Peninsula.">
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="service-page">
+<body>
 
   <header class="page-header">
     <div class="container page-header-row">
-      <a href="index.html" class="page-logo"><img src="images/logotype.png" alt="Bay Greenery"></a>
-      <a href="index.html" class="page-back">&larr; Back to Home</a>
+      <a class="page-logo" href="index.html"><img src="images/logo-baygreenery.png" alt="Bay Greenery"></a>
+      <a class="page-back" href="index.html">&larr; Back to Home</a>
     </div>
   </header>
 
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-badge">PORTFOLIO</span>
-        <h1 class="section-title">Recent Projects</h1>
-        <p class="section-subtitle">A sample of landscape and hardscape projects we've built across the Bay Area. Click any project to see the full story.</p>
+  <div class="portfolio-layout">
+
+    <aside class="portfolio-sidebar">
+      <button type="button" class="portfolio-sidebar-toggle" data-sidebar-toggle aria-label="Toggle project list">
+        Projects &#9662;
+      </button>
+      <div class="portfolio-sidebar-list">
+        <a class="portfolio-nav-link" href="#home">Home — All Photos</a>
+        <span class="portfolio-nav-header">Featured Projects</span>
+        <a class="portfolio-nav-link" href="#golf-creek">Backyard Remodel — 1359 Golf Creek</a>
+        <a class="portfolio-nav-link" href="#retaining-wall">Retaining Wall Build</a>
+        <a class="portfolio-nav-link" href="#sod-replacement">Sod Replacement — Multiple Yards</a>
+        <a class="portfolio-nav-link" href="#irrigation-repair">Irrigation Repair Calls</a>
+        <a class="portfolio-nav-link" href="#irrigation">Drip &amp; Sprinkler Installs</a>
+        <a class="portfolio-nav-link" href="#landscape-lighting">Landscape Lighting Install</a>
+        <a class="portfolio-nav-link" href="#artificial-turf">Artificial Turf Install</a>
+        <a class="portfolio-nav-link" href="#fine-grading">Fine Grading</a>
+        <a class="portfolio-nav-link" href="#dg-driveway">Decomposed Granite Driveway Extension</a>
+        <a class="portfolio-nav-link" href="#overseeding">Lawn Overseeding</a>
+        <a class="portfolio-nav-link" href="#fence">Fence Replacement</a>
+        <a class="portfolio-nav-link" href="#yard-cleanup">Yard Cleanup &amp; Restoration</a>
       </div>
+    </aside>
 
-      <div class="portfolio-page-grid">
+    <main class="portfolio-content">
+      <section id="home" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Project Gallery</h2>
+          <p class="portfolio-section-lead">A walk through our recent endeavours across the South Bay and Peninsula. Click any photo to view it full size and arrow through.</p>
+        </div>
+        <div class="gallery-grid">
+        <button class="gallery-tile" type="button" data-src="images/gallery-01.jpg" style="background-image:url('images/gallery-01.jpg');" aria-label="Project photo 1"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-02.jpg" style="background-image:url('images/gallery-02.jpg');" aria-label="Project photo 2"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-03.jpg" style="background-image:url('images/gallery-03.jpg');" aria-label="Project photo 3"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-04.jpg" style="background-image:url('images/gallery-04.jpg');" aria-label="Project photo 4"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-05.jpg" style="background-image:url('images/gallery-05.jpg');" aria-label="Project photo 5"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-06.jpg" style="background-image:url('images/gallery-06.jpg');" aria-label="Project photo 6"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-07.jpg" style="background-image:url('images/gallery-07.jpg');" aria-label="Project photo 7"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-08.jpg" style="background-image:url('images/gallery-08.jpg');" aria-label="Project photo 8"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-09.jpg" style="background-image:url('images/gallery-09.jpg');" aria-label="Project photo 9"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-10.jpg" style="background-image:url('images/gallery-10.jpg');" aria-label="Project photo 10"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-11.jpg" style="background-image:url('images/gallery-11.jpg');" aria-label="Project photo 11"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-12.jpg" style="background-image:url('images/gallery-12.jpg');" aria-label="Project photo 12"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-13.jpg" style="background-image:url('images/gallery-13.jpg');" aria-label="Project photo 13"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-14.jpg" style="background-image:url('images/gallery-14.jpg');" aria-label="Project photo 14"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-15.jpg" style="background-image:url('images/gallery-15.jpg');" aria-label="Project photo 15"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-16.jpg" style="background-image:url('images/gallery-16.jpg');" aria-label="Project photo 16"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-17.jpg" style="background-image:url('images/gallery-17.jpg');" aria-label="Project photo 17"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-18.jpg" style="background-image:url('images/gallery-18.jpg');" aria-label="Project photo 18"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-19.jpg" style="background-image:url('images/gallery-19.jpg');" aria-label="Project photo 19"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-20.jpg" style="background-image:url('images/gallery-20.jpg');" aria-label="Project photo 20"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-21.jpg" style="background-image:url('images/gallery-21.jpg');" aria-label="Project photo 21"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-22.jpg" style="background-image:url('images/gallery-22.jpg');" aria-label="Project photo 22"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-23.jpg" style="background-image:url('images/gallery-23.jpg');" aria-label="Project photo 23"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-24.jpg" style="background-image:url('images/gallery-24.jpg');" aria-label="Project photo 24"></button>
+        <button class="gallery-tile" type="button" data-src="images/gallery-25.jpg" style="background-image:url('images/gallery-25.jpg');" aria-label="Project photo 25"></button>
+        </div>
+      </section>
 
-        <a href="project-template.html" class="portfolio-card">
-          <div class="portfolio-card-image" style="background-image: url('images/landscape1.jpg')"></div>
-          <div class="portfolio-card-body">
-            <h3 class="portfolio-card-title">Willow Glen Backyard Reimagine</h3>
-            <p class="portfolio-card-meta">Landscape Design &amp; Build &middot; San Jose, CA</p>
-          </div>
-        </a>
+      <section id="golf-creek" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Backyard Remodel — 1359 Golf Creek</h2>
+          <p class="portfolio-section-meta">
+            <span>Design to Build</span><span>South Bay</span><span>4 photos</span>
+          </p>
+          <p class="portfolio-section-lead">This backyard had good bones but had been let go for years. We worked with the homeowners to plan a layout that balanced their wish list with the realities of the site, then handled grading, planting, and the hardscape ourselves so the design held together as a single project. The result is a yard the family actually uses every weekend now.</p>
+          <ul class="project-detail-bullets">
+        <li>Site assessment &amp; layout planning</li>
+        <li>Hardscape &amp; soft-scape installation</li>
+        <li>Plant selection for the microclimate</li>
+        <li>Long-term maintenance plan handed off to the owners</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/golf-creek/01-before.jpg" style="background-image:url('images/projects/golf-creek/01-before.jpg');" aria-label="Backyard Remodel — 1359 Golf Creek — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/golf-creek/02-before.jpg" style="background-image:url('images/projects/golf-creek/02-before.jpg');" aria-label="Backyard Remodel — 1359 Golf Creek — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/golf-creek/03-after.jpg" style="background-image:url('images/projects/golf-creek/03-after.jpg');" aria-label="Backyard Remodel — 1359 Golf Creek — After"><span class="gallery-tile-label is-after">After</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/golf-creek/04-after.jpg" style="background-image:url('images/projects/golf-creek/04-after.jpg');" aria-label="Backyard Remodel — 1359 Golf Creek — After"><span class="gallery-tile-label is-after">After</span></button>
+        </div>
+      </section>
 
-        <a href="project-template.html" class="portfolio-card">
-          <div class="portfolio-card-image" style="background-image: url('images/landscape2.jpg')"></div>
-          <div class="portfolio-card-body">
-            <h3 class="portfolio-card-title">Cupertino Drought-Tolerant Front Yard</h3>
-            <p class="portfolio-card-meta">Design + Irrigation &middot; Cupertino, CA</p>
-          </div>
-        </a>
+      <section id="retaining-wall" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Retaining Wall Build</h2>
+          <p class="portfolio-section-meta">
+            <span>Landscape Projects</span><span>South Bay</span><span>5 photos</span>
+          </p>
+          <p class="portfolio-section-lead">A steep slope was eroding into the lower yard every winter and there was no usable patio area. We engineered a retaining wall to reclaim the grade, hold back the hillside long-term, and create a level tier the family could actually plant on.</p>
+          <ul class="project-detail-bullets">
+        <li>Slope analysis &amp; drainage planning</li>
+        <li>Engineered wall build with proper backfill</li>
+        <li>Grading above the wall to a usable surface</li>
+        <li>Planting that ties the new tier into the existing yard</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/retaining-wall/01-before.jpg" style="background-image:url('images/projects/retaining-wall/01-before.jpg');" aria-label="Retaining Wall Build — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/retaining-wall/02-before.jpg" style="background-image:url('images/projects/retaining-wall/02-before.jpg');" aria-label="Retaining Wall Build — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/retaining-wall/03-after.jpg" style="background-image:url('images/projects/retaining-wall/03-after.jpg');" aria-label="Retaining Wall Build — After"><span class="gallery-tile-label is-after">After</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/retaining-wall/04-after.jpg" style="background-image:url('images/projects/retaining-wall/04-after.jpg');" aria-label="Retaining Wall Build — After"><span class="gallery-tile-label is-after">After</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/retaining-wall/05-after.jpg" style="background-image:url('images/projects/retaining-wall/05-after.jpg');" aria-label="Retaining Wall Build — After"><span class="gallery-tile-label is-after">After</span></button>
+        </div>
+      </section>
 
-        <a href="project-template.html" class="portfolio-card">
-          <div class="portfolio-card-image" style="background-image: url('images/landscape3.jpg')"></div>
-          <div class="portfolio-card-body">
-            <h3 class="portfolio-card-title">Los Gatos Terraced Hillside</h3>
-            <p class="portfolio-card-meta">Retaining Walls + Planting &middot; Los Gatos, CA</p>
-          </div>
-        </a>
+      <section id="sod-replacement" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Sod Replacement — Multiple Yards</h2>
+          <p class="portfolio-section-meta">
+            <span>Landscape Projects</span><span>South Bay &amp; Peninsula</span><span>9 photos</span>
+          </p>
+          <p class="portfolio-section-lead">We've replaced sod on properties across the South Bay — from full yards to specific high-traffic stretches that wore out. Each install starts with soil prep, irrigation alignment, and a sod variety chosen for the property's sun exposure.</p>
+          <ul class="project-detail-bullets">
+        <li>Soil prep &amp; grading</li>
+        <li>Irrigation alignment under the new sod</li>
+        <li>Sod type matched to sun exposure</li>
+        <li>Post-install watering protocol</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/sod-replacement/01.jpg" style="background-image:url('images/projects/sod-replacement/01.jpg');" aria-label="Sod Replacement — Multiple Yards — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/sod-replacement/02.jpg" style="background-image:url('images/projects/sod-replacement/02.jpg');" aria-label="Sod Replacement — Multiple Yards — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/sod-replacement/03.jpg" style="background-image:url('images/projects/sod-replacement/03.jpg');" aria-label="Sod Replacement — Multiple Yards — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/sod-replacement/04.jpg" style="background-image:url('images/projects/sod-replacement/04.jpg');" aria-label="Sod Replacement — Multiple Yards — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/sod-replacement/05.jpg" style="background-image:url('images/projects/sod-replacement/05.jpg');" aria-label="Sod Replacement — Multiple Yards — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/sod-replacement/06.jpg" style="background-image:url('images/projects/sod-replacement/06.jpg');" aria-label="Sod Replacement — Multiple Yards — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/sod-replacement/07.jpg" style="background-image:url('images/projects/sod-replacement/07.jpg');" aria-label="Sod Replacement — Multiple Yards — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/sod-replacement/08.jpg" style="background-image:url('images/projects/sod-replacement/08.jpg');" aria-label="Sod Replacement — Multiple Yards — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/sod-replacement/09.jpg" style="background-image:url('images/projects/sod-replacement/09.jpg');" aria-label="Sod Replacement — Multiple Yards — project photo"></button>
+        </div>
+      </section>
 
-        <a href="project-template.html" class="portfolio-card">
-          <div class="portfolio-card-image" style="background-image: url('images/thumb1.jpg')"></div>
-          <div class="portfolio-card-body">
-            <h3 class="portfolio-card-title">Palo Alto Family Patio &amp; Turf</h3>
-            <p class="portfolio-card-meta">Pavers + Artificial Turf &middot; Palo Alto, CA</p>
-          </div>
-        </a>
+      <section id="irrigation-repair" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Irrigation Repair Calls</h2>
+          <p class="portfolio-section-meta">
+            <span>Repair Service</span><span>South Bay</span><span>6 photos</span>
+          </p>
+          <p class="portfolio-section-lead">A selection of irrigation jobs we've been called out to: cracked valves, line breaks under driveways, root-invaded mainlines, and systems that needed to be re-mapped because the original installer never left a plan. We document what we find, explain it plainly, and fix it without taking the whole system offline.</p>
+          <ul class="project-detail-bullets">
+        <li>Valve diagnostics &amp; replacement</li>
+        <li>Mainline repair through tight spaces and root systems</li>
+        <li>Zone re-mapping when the original plan is gone</li>
+        <li>Same-day fixes where possible</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation-repair/01.jpg" style="background-image:url('images/projects/irrigation-repair/01.jpg');" aria-label="Irrigation Repair Calls — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation-repair/02.jpg" style="background-image:url('images/projects/irrigation-repair/02.jpg');" aria-label="Irrigation Repair Calls — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation-repair/03.jpg" style="background-image:url('images/projects/irrigation-repair/03.jpg');" aria-label="Irrigation Repair Calls — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation-repair/04.jpg" style="background-image:url('images/projects/irrigation-repair/04.jpg');" aria-label="Irrigation Repair Calls — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation-repair/05-thick-roots.jpg" style="background-image:url('images/projects/irrigation-repair/05-thick-roots.jpg');" aria-label="Irrigation Repair Calls — Thick Roots"><span class="gallery-tile-label ">Thick Roots</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation-repair/06-tight-spaces.jpg" style="background-image:url('images/projects/irrigation-repair/06-tight-spaces.jpg');" aria-label="Irrigation Repair Calls — Tight Spaces"><span class="gallery-tile-label ">Tight Spaces</span></button>
+        </div>
+      </section>
 
-        <a href="project-template.html" class="portfolio-card">
-          <div class="portfolio-card-image" style="background-image: url('images/thumb2.jpg')"></div>
-          <div class="portfolio-card-body">
-            <h3 class="portfolio-card-title">Sunnyvale Evening Garden</h3>
-            <p class="portfolio-card-meta">Landscape Lighting &middot; Sunnyvale, CA</p>
-          </div>
-        </a>
+      <section id="irrigation" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Drip &amp; Sprinkler Installs</h2>
+          <p class="portfolio-section-meta">
+            <span>Landscape Projects</span><span>South Bay</span><span>6 photos</span>
+          </p>
+          <p class="portfolio-section-lead">Several drip and sprinkler system installs over the last few years. We size the system to the planting plan, not the other way around — coverage gets sketched against the bed layout before any pipe goes in the ground.</p>
+          <ul class="project-detail-bullets">
+        <li>System design matched to the planting plan</li>
+        <li>Trenching &amp; pipe install</li>
+        <li>Zone setup with smart-controller-ready valves</li>
+        <li>Coverage verification before backfill</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation/01.jpg" style="background-image:url('images/projects/irrigation/01.jpg');" aria-label="Drip & Sprinkler Installs — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation/02.jpg" style="background-image:url('images/projects/irrigation/02.jpg');" aria-label="Drip & Sprinkler Installs — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation/03.jpg" style="background-image:url('images/projects/irrigation/03.jpg');" aria-label="Drip & Sprinkler Installs — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation/04.jpg" style="background-image:url('images/projects/irrigation/04.jpg');" aria-label="Drip & Sprinkler Installs — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation/05.jpg" style="background-image:url('images/projects/irrigation/05.jpg');" aria-label="Drip & Sprinkler Installs — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/irrigation/06.jpg" style="background-image:url('images/projects/irrigation/06.jpg');" aria-label="Drip & Sprinkler Installs — project photo"></button>
+        </div>
+      </section>
 
-        <a href="project-template.html" class="portfolio-card">
-          <div class="portfolio-card-image" style="background-image: url('images/landscape1.jpg')"></div>
-          <div class="portfolio-card-body">
-            <h3 class="portfolio-card-title">Mountain View Privacy Fence</h3>
-            <p class="portfolio-card-meta">Fences &middot; Mountain View, CA</p>
-          </div>
-        </a>
+      <section id="landscape-lighting" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Landscape Lighting Install</h2>
+          <p class="portfolio-section-meta">
+            <span>Landscape Projects</span><span>South Bay</span><span>5 photos</span>
+          </p>
+          <p class="portfolio-section-lead">A landscape lighting install we walked through with the homeowner at dusk to make sure every fixture pointed where they wanted it to. Path lighting, accent uplights on the structure, and warm-temperature LEDs throughout so the yard reads as warm even in winter.</p>
+          <ul class="project-detail-bullets">
+        <li>Path &amp; accent fixture placement</li>
+        <li>Warm-temperature LED throughout</li>
+        <li>Transformer sized for future expansion</li>
+        <li>Walk-through at dusk for final adjustments</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/landscape-lighting/01.jpg" style="background-image:url('images/projects/landscape-lighting/01.jpg');" aria-label="Landscape Lighting Install — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/landscape-lighting/02.jpg" style="background-image:url('images/projects/landscape-lighting/02.jpg');" aria-label="Landscape Lighting Install — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/landscape-lighting/03.jpg" style="background-image:url('images/projects/landscape-lighting/03.jpg');" aria-label="Landscape Lighting Install — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/landscape-lighting/04.jpg" style="background-image:url('images/projects/landscape-lighting/04.jpg');" aria-label="Landscape Lighting Install — project photo"></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/landscape-lighting/05.jpg" style="background-image:url('images/projects/landscape-lighting/05.jpg');" aria-label="Landscape Lighting Install — project photo"></button>
+        </div>
+      </section>
 
-      </div>
+      <section id="artificial-turf" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Artificial Turf Install</h2>
+          <p class="portfolio-section-meta">
+            <span>Landscape Projects</span><span>South Bay</span><span>3 photos</span>
+          </p>
+          <p class="portfolio-section-lead">A patchy lawn that wasn't getting enough sun to recover, turned into a low-maintenance artificial turf area the kids can use year-round. We re-graded the base, set the drainage, and put down a turf with a realistic blade height and color blend.</p>
+          <ul class="project-detail-bullets">
+        <li>Sub-base re-grading &amp; compaction</li>
+        <li>Drainage layer install</li>
+        <li>Realistic turf blend (color &amp; blade height)</li>
+        <li>Edge work tying into the existing hardscape</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/artificial-turf/01-before.jpg" style="background-image:url('images/projects/artificial-turf/01-before.jpg');" aria-label="Artificial Turf Install — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/artificial-turf/02-after.jpg" style="background-image:url('images/projects/artificial-turf/02-after.jpg');" aria-label="Artificial Turf Install — After"><span class="gallery-tile-label is-after">After</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/artificial-turf/03-after.jpg" style="background-image:url('images/projects/artificial-turf/03-after.jpg');" aria-label="Artificial Turf Install — After"><span class="gallery-tile-label is-after">After</span></button>
+        </div>
+      </section>
 
-      <p class="portfolio-social" style="text-align:center; margin-top:2.5rem;">
-        See more day-to-day work on Instagram &mdash;
-        <a href="#" class="js-instagram-link" target="_blank" rel="noopener">@baygreenery</a>
-      </p>
-    </div>
-  </section>
+      <section id="fine-grading" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Fine Grading</h2>
+          <p class="portfolio-section-meta">
+            <span>Landscape Projects</span><span>South Bay</span><span>4 photos</span>
+          </p>
+          <p class="portfolio-section-lead">Before any planting or sod goes down, the dirt underneath has to drain and contour the way the design needs it to. These photos show the difference fine grading makes — going from a rough, lumpy site to a surface that's ready for installation.</p>
+          <ul class="project-detail-bullets">
+        <li>Slope &amp; drainage planning</li>
+        <li>Topsoil amendment</li>
+        <li>Final surface contouring to spec</li>
+        <li>Compaction to prevent settling</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/fine-grading/01-before.jpg" style="background-image:url('images/projects/fine-grading/01-before.jpg');" aria-label="Fine Grading — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/fine-grading/02-before.jpg" style="background-image:url('images/projects/fine-grading/02-before.jpg');" aria-label="Fine Grading — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/fine-grading/03-after.jpg" style="background-image:url('images/projects/fine-grading/03-after.jpg');" aria-label="Fine Grading — After"><span class="gallery-tile-label is-after">After</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/fine-grading/04-after.jpg" style="background-image:url('images/projects/fine-grading/04-after.jpg');" aria-label="Fine Grading — After"><span class="gallery-tile-label is-after">After</span></button>
+        </div>
+      </section>
+
+      <section id="dg-driveway" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Decomposed Granite Driveway Extension</h2>
+          <p class="portfolio-section-meta">
+            <span>Landscape Projects</span><span>South Bay</span><span>3 photos</span>
+          </p>
+          <p class="portfolio-section-lead">The driveway parking area was too tight for two cars. We extended it with decomposed granite — permeable, lower-impact than concrete, and a fast install. The during-shot shows the base prep that lets it hold up under daily use.</p>
+          <ul class="project-detail-bullets">
+        <li>Base prep &amp; edging</li>
+        <li>Decomposed granite install &amp; compaction</li>
+        <li>Permeable surface for stormwater</li>
+        <li>Clean transition to the existing driveway</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/dg-driveway/01-before.jpg" style="background-image:url('images/projects/dg-driveway/01-before.jpg');" aria-label="Decomposed Granite Driveway Extension — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/dg-driveway/02-during.jpg" style="background-image:url('images/projects/dg-driveway/02-during.jpg');" aria-label="Decomposed Granite Driveway Extension — During"><span class="gallery-tile-label is-during">During</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/dg-driveway/03-after.jpg" style="background-image:url('images/projects/dg-driveway/03-after.jpg');" aria-label="Decomposed Granite Driveway Extension — After"><span class="gallery-tile-label is-after">After</span></button>
+        </div>
+      </section>
+
+      <section id="overseeding" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Lawn Overseeding</h2>
+          <p class="portfolio-section-meta">
+            <span>Landscape Projects</span><span>South Bay</span><span>3 photos</span>
+          </p>
+          <p class="portfolio-section-lead">A thinned-out lawn that wasn't going to recover on its own. We aerated, top-dressed, and overseeded with a blend matched to the sun exposure — and the homeowners had a noticeably thicker lawn within a few weeks.</p>
+          <ul class="project-detail-bullets">
+        <li>Core aeration</li>
+        <li>Top-dress with compost-rich soil</li>
+        <li>Seed blend matched to sun exposure</li>
+        <li>Watering schedule handed off</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/overseeding/01-before.jpg" style="background-image:url('images/projects/overseeding/01-before.jpg');" aria-label="Lawn Overseeding — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/overseeding/02-after.jpg" style="background-image:url('images/projects/overseeding/02-after.jpg');" aria-label="Lawn Overseeding — After"><span class="gallery-tile-label is-after">After</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/overseeding/03-detail.jpg" style="background-image:url('images/projects/overseeding/03-detail.jpg');" aria-label="Lawn Overseeding — Detail"><span class="gallery-tile-label ">Detail</span></button>
+        </div>
+      </section>
+
+      <section id="fence" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Fence Replacement</h2>
+          <p class="portfolio-section-meta">
+            <span>Landscape Projects</span><span>South Bay</span><span>2 photos</span>
+          </p>
+          <p class="portfolio-section-lead">An old fence that had failed at the posts, replaced with new framing and pickets. We dug the posts deep enough to hold up to wind loading and used pressure-treated lumber where it touches the ground.</p>
+          <ul class="project-detail-bullets">
+        <li>Post-hole depth set for wind loading</li>
+        <li>Pressure-treated ground contact</li>
+        <li>New pickets &amp; framing</li>
+        <li>Hardware sized for long-term hold</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/fence/01-before.jpg" style="background-image:url('images/projects/fence/01-before.jpg');" aria-label="Fence Replacement — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/fence/02-after.jpg" style="background-image:url('images/projects/fence/02-after.jpg');" aria-label="Fence Replacement — After"><span class="gallery-tile-label is-after">After</span></button>
+        </div>
+      </section>
+
+      <section id="yard-cleanup" class="portfolio-section">
+        <div class="portfolio-section-head">
+          <h2>Yard Cleanup &amp; Restoration</h2>
+          <p class="portfolio-section-meta">
+            <span>Cleanup &amp; Restoration</span><span>South Bay</span><span>2 photos</span>
+          </p>
+          <p class="portfolio-section-lead">An overgrown side yard that had been neglected for a few seasons. We cleared, hauled out the debris, cut back the overgrowth at the right depth for regrowth, and left the site ready for whatever the homeowner wanted to do next with it.</p>
+          <ul class="project-detail-bullets">
+        <li>Debris clearing &amp; hauling</li>
+        <li>Targeted overgrowth cutbacks</li>
+        <li>Soil and bed restoration</li>
+        <li>Site left ready for next steps</li>
+          </ul>
+          <p class="project-placeholder-note">Project narrative is placeholder — Nathan to send the real customer goals and project notes.</p>
+        </div>
+        <div class="project-photo-grid">
+        <button class="gallery-tile" type="button" data-src="images/projects/yard-cleanup/01-before.jpg" style="background-image:url('images/projects/yard-cleanup/01-before.jpg');" aria-label="Yard Cleanup & Restoration — Before"><span class="gallery-tile-label ">Before</span></button>
+        <button class="gallery-tile" type="button" data-src="images/projects/yard-cleanup/02-after.jpg" style="background-image:url('images/projects/yard-cleanup/02-after.jpg');" aria-label="Yard Cleanup & Restoration — After"><span class="gallery-tile-label is-after">After</span></button>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
 
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
+
         <div class="footer-block">
           <h3>Get in Touch</h3>
-          <a href="mailto:ops@baygreenery.com">ops@baygreenery.com</a>
-          <a href="tel:+14084548078">(408) 454-8078</a>
-          <p>San Jose, CA 95128</p>
+          <a class="js-email-link" href="mailto:admbaygreenery@gmail.com">admbaygreenery@gmail.com</a>
+          <a class="js-phone-link" href="tel:+14084548078">(408) 454-8078</a>
+          <p data-config="address">San Jose, CA 95128</p>
         </div>
+
         <div class="footer-block">
           <h3>Service Area</h3>
-          <p>South Bay &middot; Peninsula</p>
+          <p data-config="service-area">South Bay • Peninsula</p>
         </div>
+
         <div class="footer-block">
-          <h3>Book a Service</h3>
-          <p><a href="#" class="js-booking-link">Start your project &rarr;</a></p>
+          <h3>Get Started</h3>
+          <a class="js-booking-link" href="#">Book a Service &rarr;</a>
+          <a class="js-reviews-link" href="#">Google Reviews &rarr;</a>
         </div>
+
       </div>
+
       <div class="footer-license" data-config="license">CA License C-27 #1146610</div>
     </div>
   </footer>
