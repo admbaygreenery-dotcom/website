@@ -17,6 +17,7 @@
     injectAnalytics();
     initServicesCarousel();
     initReviewsAutoScroll();
+    initPortfolioRouter();
     initGalleryLightbox();
     initSmoothScroll();
   });
@@ -262,18 +263,31 @@
     const nextBtn = overlay.querySelector('.lightbox-next');
     const counter = overlay.querySelector('.lightbox-counter');
 
+    // currentSet is whichever container's tiles we're navigating right now.
+    // Re-derived on each open() so arrows stay inside one project / one
+    // gallery, even when the page has many photo grids on it.
+    let currentSet = [];
     let currentIndex = 0;
 
     function show(index) {
-      currentIndex = (index + tiles.length) % tiles.length;
-      const tile = tiles[currentIndex];
+      if (!currentSet.length) return;
+      currentIndex = (index + currentSet.length) % currentSet.length;
+      const tile = currentSet[currentIndex];
       img.setAttribute('src', tile.getAttribute('data-src'));
       img.setAttribute('alt', tile.getAttribute('aria-label') || '');
-      counter.textContent = (currentIndex + 1) + ' / ' + tiles.length;
+      counter.textContent = (currentIndex + 1) + ' / ' + currentSet.length;
+      const single = currentSet.length <= 1;
+      prevBtn.style.display = single ? 'none' : '';
+      nextBtn.style.display = single ? 'none' : '';
     }
 
-    function open(index) {
-      show(index);
+    function open(tile) {
+      const scope = tile.closest('.project-photo-grid')
+        || tile.closest('.gallery-grid')
+        || document;
+      currentSet = Array.from(scope.querySelectorAll('.gallery-tile[data-src]'));
+      const idx = currentSet.indexOf(tile);
+      show(idx >= 0 ? idx : 0);
       overlay.classList.add('is-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
@@ -286,8 +300,8 @@
       document.body.style.overflow = '';
     }
 
-    tiles.forEach(function (tile, i) {
-      tile.addEventListener('click', function () { open(i); });
+    tiles.forEach(function (tile) {
+      tile.addEventListener('click', function () { open(tile); });
     });
 
     prevBtn.addEventListener('click', function (e) {
@@ -310,6 +324,68 @@
       else if (e.key === 'ArrowLeft') show(currentIndex - 1);
       else if (e.key === 'ArrowRight') show(currentIndex + 1);
     });
+  }
+
+  /* -----------------------------------------------------------------
+     Portfolio router — sidebar nav swaps which content section is visible.
+     One section visible at a time, hash-routed so direct links work.
+     ----------------------------------------------------------------- */
+  function initPortfolioRouter() {
+    const root = document.querySelector('.portfolio-layout');
+    if (!root) return;
+    const sections = Array.from(root.querySelectorAll('.portfolio-section'));
+    const links = Array.from(root.querySelectorAll('.portfolio-nav-link'));
+    if (!sections.length || !links.length) return;
+
+    const defaultId = 'home';
+    const known = new Set(sections.map(function (s) { return s.id; }));
+
+    function show(id) {
+      if (!known.has(id)) id = defaultId;
+      sections.forEach(function (s) {
+        s.classList.toggle('is-active', s.id === id);
+      });
+      links.forEach(function (l) {
+        const target = (l.getAttribute('href') || '').replace('#', '');
+        l.classList.toggle('is-active', target === id);
+      });
+      // Mobile: close any open drawer
+      root.classList.remove('sidebar-open');
+    }
+
+    function hashId() {
+      const h = (window.location.hash || '').replace('#', '');
+      return known.has(h) ? h : defaultId;
+    }
+
+    links.forEach(function (l) {
+      l.addEventListener('click', function (e) {
+        const href = l.getAttribute('href') || '';
+        if (!href.startsWith('#')) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const target = href.replace('#', '') || defaultId;
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, '', '#' + target);
+        } else {
+          window.location.hash = target;
+        }
+        show(target);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    window.addEventListener('popstate', function () { show(hashId()); });
+    window.addEventListener('hashchange', function () { show(hashId()); });
+
+    const toggle = root.querySelector('[data-sidebar-toggle]');
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        root.classList.toggle('sidebar-open');
+      });
+    }
+
+    show(hashId());
   }
 
   /* -----------------------------------------------------------------
