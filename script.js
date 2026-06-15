@@ -181,8 +181,14 @@
 
   /* -----------------------------------------------------------------
      Reviews auto-scroll — drives the viewport's native scrollLeft so
-     that manual wheel/drag/swipe work simultaneously. Auto-scroll pauses
-     while the user interacts and resumes a short delay after they stop.
+     wheel/drag/swipe work simultaneously. Uses a circular-buffer trick:
+     when the first card scrolls fully off the left, it's moved to the
+     end of the track (scrollLeft compensated so the visible cards don't
+     jump). The DOM holds exactly the 6 reviews at all times — no clones,
+     no duplicates side-by-side.
+
+     The scroll handler distinguishes the user's scroll from ours by
+     comparing the new scrollLeft against the value we just wrote.
      ----------------------------------------------------------------- */
   function initReviewsAutoScroll() {
     const root = document.getElementById('reviewsCarousel');
@@ -190,38 +196,52 @@
     const viewport = root.querySelector('.reviews-viewport');
     const track = root.querySelector('.reviews-track');
     if (!viewport || !track) return;
+    if (!track.querySelectorAll('.review-card').length) return;
 
-    const cards = track.querySelectorAll('.review-card');
-    if (!cards.length) return;
-
-    // Clone the card set once so the loop seam isn't visible when auto-scroll
-    // wraps from the right side of the original set back to the start.
-    cards.forEach(function (card) {
-      track.appendChild(card.cloneNode(true));
-    });
-
-    const speedPxPerSecond = 28;
+    const SPEED_PX_PER_SECOND = 28;
     const RESUME_DELAY_MS = 2500;
+    const USER_SCROLL_TOLERANCE_PX = 3;
+
     let paused = false;
     let lastTimestamp = null;
     let resumeTimer = null;
-    let suppressScrollHandler = false;
+    let expectedScrollLeft = 0;
 
-    function loopHalfWidth() {
-      // We cloned once, so the natural seam is at half the scrollable width.
-      return track.scrollWidth / 2;
+    function trackGap() {
+      const s = window.getComputedStyle(track);
+      return parseFloat(s.columnGap || s.gap || '0') || 0;
+    }
+
+    function setScrollLeft(value) {
+      expectedScrollLeft = value;
+      viewport.scrollLeft = value;
+    }
+
+    // If the first card has scrolled fully off the left edge, move it to
+    // the end of the track and shift scrollLeft back by the same amount.
+    // Net effect: the user sees one card slide out on the left and another
+    // appear on the right, like a conveyor belt.
+    function recycleIfNeeded() {
+      const first = track.firstElementChild;
+      if (!first) return;
+      const stride = first.offsetWidth + trackGap();
+      if (viewport.scrollLeft >= stride) {
+        track.appendChild(first);
+        setScrollLeft(viewport.scrollLeft - stride);
+      }
     }
 
     function step(timestamp) {
-      if (lastTimestamp == null) lastTimestamp = timestamp;
+      if (lastTimestamp == null) {
+        lastTimestamp = timestamp;
+        expectedScrollLeft = viewport.scrollLeft;
+      }
       const dt = (timestamp - lastTimestamp) / 1000;
       lastTimestamp = timestamp;
+
       if (!paused) {
-        const next = viewport.scrollLeft + speedPxPerSecond * dt;
-        const half = loopHalfWidth();
-        suppressScrollHandler = true;
-        viewport.scrollLeft = next >= half ? next - half : next;
-        suppressScrollHandler = false;
+        recycleIfNeeded();
+        setScrollLeft(viewport.scrollLeft + SPEED_PX_PER_SECOND * dt);
       }
       requestAnimationFrame(step);
     }
@@ -243,21 +263,24 @@
       }, RESUME_DELAY_MS);
     }
 
-    // Hover / focus: pause indefinitely, resume on mouseleave / focusout.
+    // Hover / focus: pause indefinitely until pointer / focus leaves.
     root.addEventListener('mouseenter', pause);
     root.addEventListener('focusin', pause);
     root.addEventListener('mouseleave', scheduleResume);
     root.addEventListener('focusout', scheduleResume);
 
-    // User-driven scroll (wheel, drag, swipe) pauses and then auto-resumes
-    // after a short idle window.
+    // Distinguish user-driven scroll from our programmatic auto-scroll:
+    // if the actual scrollLeft diverges from what we last set, the user
+    // did it. Auto-scroll's delta per frame is < 1px, so a 3px tolerance
+    // safely catches any human gesture.
     viewport.addEventListener('scroll', function () {
-      if (suppressScrollHandler) return;
-      pause();
-      scheduleResume();
+      if (Math.abs(viewport.scrollLeft - expectedScrollLeft) > USER_SCROLL_TOLERANCE_PX) {
+        pause();
+        scheduleResume();
+      }
     }, { passive: true });
 
-    // Touch on the strip: pause while finger is down, resume on lift.
+    // Touch on the strip: pause while the finger is down.
     viewport.addEventListener('touchstart', pause, { passive: true });
     viewport.addEventListener('touchend', scheduleResume, { passive: true });
     viewport.addEventListener('touchcancel', scheduleResume, { passive: true });
