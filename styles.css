@@ -390,66 +390,71 @@ img { max-width: 100%; display: block; }
 /* ----------------------------------------------------------
    REVIEWS — auto-scrolling glassy carousel
    ---------------------------------------------------------- */
+/* Reviews section gets a layered green gradient as the BACKDROP so the
+   frosted glass on top of it has real contrast to blur — glassmorphism
+   only reads when there's something colored behind it. */
 .reviews-section {
-  background: var(--color-bg-main);
   position: relative;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(164, 207, 63, 0.55) 0%, transparent 45%),
+    radial-gradient(circle at 82% 78%, rgba(60, 74, 85, 0.45) 0%, transparent 50%),
+    linear-gradient(135deg, #2f4530 0%, #5a7c3a 55%, #3a4f33 100%);
+  color: var(--color-text-light);
+  overflow: hidden;
 }
 
-/* Per Nathan's spec: low-opacity dark frosted-glass rounded rectangle
-   as a background strip behind the chunky review cards. */
+.reviews-section .section-title { color: var(--color-text-light); }
+.reviews-section .section-subtitle { color: rgba(255, 255, 255, 0.85); }
+
+/* Frosted glass rounded rectangle — white at low opacity, soft border,
+   gentle shadow. Per glassmorphism best practice. */
 .reviews-frame {
   position: relative;
-  background: rgba(28, 38, 52, 0.42);
-  backdrop-filter: blur(18px) saturate(120%);
-  -webkit-backdrop-filter: blur(18px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.18);
   border-radius: var(--radius-lg);
-  padding: 3rem 1.25rem;
-  box-shadow: 0 14px 40px rgba(18, 24, 36, 0.18),
-              inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  padding: 2.5rem 1.25rem;
   overflow: hidden;
 }
 
-/* subtle light sheen across the top of the strip — sells the glass */
-.reviews-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 36%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.14) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  pointer-events: none;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
+/* Native horizontal scrolling on the viewport — wheel/drag/swipe all
+   work. Scrollbar is hidden but the scroll is real. JS auto-scrolls
+   the same scrollLeft, so manual + auto coexist. */
 .reviews-viewport {
-  overflow: hidden;
   position: relative;
   z-index: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;            /* Firefox */
+  -ms-overflow-style: none;         /* IE */
+  overscroll-behavior-x: contain;
 }
+.reviews-viewport::-webkit-scrollbar { display: none; }
 
 .reviews-track {
   display: flex;
   gap: 1.75rem;
   padding: 0.5rem 0.25rem;
+  width: max-content;
 }
 
 .review-card {
   flex: 0 0 420px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: var(--radius-md);
   padding: 2rem 2rem 1.75rem;
-  box-shadow: 0 10px 30px rgba(12, 18, 30, 0.22),
+  box-shadow: 0 10px 30px rgba(15, 25, 18, 0.22),
               inset 0 1px 0 rgba(255, 255, 255, 0.85);
   display: flex;
   flex-direction: column;
   gap: 1rem;
   position: relative;
   min-height: 280px;
+  user-select: text;
 }
 
 .review-stars {
@@ -481,44 +486,45 @@ img { max-width: 100%; display: block; }
   gap: 1.25rem;
   margin-top: 2.25rem;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 }
 
-/* Primary "Leave a Review" — styled like the hero Book a Service CTA. */
+/* Primary "Leave a Review" — Book-a-Service style. White pill that pops
+   against the dark green section, with the slate brand color for text. */
 .leave-review-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.85rem;
   font-family: var(--font-title);
   font-size: 1.25rem;
-  color: var(--color-text-light);
-  background: var(--color-accent-green);
+  color: var(--color-brand-slate);
+  background: #fff;
   padding: 1rem 2rem 1rem 2.1rem;
   border-radius: var(--radius-pill);
-  box-shadow: 0 8px 24px rgba(60, 74, 85, 0.25);
-  transition: transform 0.15s ease, background 0.2s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.30);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .leave-review-cta:hover {
-  background: var(--color-accent-green-dark);
-  color: var(--color-text-light);
+  color: var(--color-brand-slate);
+  background: #fff;
   transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.38);
 }
 
 .leave-review-google-logo {
   width: 22px;
   height: 22px;
   object-fit: contain;
-  background: #fff;
-  border-radius: 50%;
-  padding: 3px;
 }
 
-/* Secondary "Read All Reviews" — quieter, complements the green CTA. */
+/* Secondary "Read All Reviews" — soft underline link on the dark bg. */
 .reviews-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  color: var(--color-brand-slate);
+  color: rgba(255, 255, 255, 0.92);
   background: transparent;
   padding: 0.65rem 0.25rem;
   font-weight: 600;
@@ -528,8 +534,8 @@ img { max-width: 100%; display: block; }
 }
 
 .reviews-cta:hover {
-  color: var(--color-accent-green-dark);
-  border-bottom-color: var(--color-accent-green);
+  color: var(--color-brand-lime);
+  border-bottom-color: var(--color-brand-lime);
 }
 
 @media (max-width: 768px) {
