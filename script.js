@@ -180,8 +180,9 @@
   }
 
   /* -----------------------------------------------------------------
-     Reviews auto-scroll — continuous horizontal drift.
-     Pauses on hover, touch, or focus.
+     Reviews auto-scroll — drives the viewport's native scrollLeft so
+     that manual wheel/drag/swipe work simultaneously. Auto-scroll pauses
+     while the user interacts and resumes a short delay after they stop.
      ----------------------------------------------------------------- */
   function initReviewsAutoScroll() {
     const root = document.getElementById('reviewsCarousel');
@@ -193,44 +194,77 @@
     const cards = track.querySelectorAll('.review-card');
     if (!cards.length) return;
 
+    // Clone the card set once so the loop seam isn't visible when auto-scroll
+    // wraps from the right side of the original set back to the start.
     cards.forEach(function (card) {
       track.appendChild(card.cloneNode(true));
     });
 
-    track.style.transition = 'none';
-    let offset = 0;
-    let paused = false;
     const speedPxPerSecond = 28;
+    const RESUME_DELAY_MS = 2500;
+    let paused = false;
     let lastTimestamp = null;
+    let resumeTimer = null;
+    let suppressScrollHandler = false;
+
+    function loopHalfWidth() {
+      // We cloned once, so the natural seam is at half the scrollable width.
+      return track.scrollWidth / 2;
+    }
 
     function step(timestamp) {
       if (lastTimestamp == null) lastTimestamp = timestamp;
       const dt = (timestamp - lastTimestamp) / 1000;
       lastTimestamp = timestamp;
       if (!paused) {
-        offset += speedPxPerSecond * dt;
-        const trackWidth = track.scrollWidth / 2;
-        if (offset >= trackWidth) offset -= trackWidth;
-        track.style.transform = 'translateX(-' + offset + 'px)';
+        const next = viewport.scrollLeft + speedPxPerSecond * dt;
+        const half = loopHalfWidth();
+        suppressScrollHandler = true;
+        viewport.scrollLeft = next >= half ? next - half : next;
+        suppressScrollHandler = false;
       }
       requestAnimationFrame(step);
     }
 
     requestAnimationFrame(step);
 
-    function pause()  { paused = true; }
-    function resume() { paused = false; lastTimestamp = null; }
+    function pause() {
+      paused = true;
+      lastTimestamp = null;
+      if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+    }
 
-    ['mouseenter', 'focusin', 'touchstart'].forEach(function (ev) {
-      root.addEventListener(ev, pause, { passive: true });
-    });
-    ['mouseleave', 'focusout', 'touchend', 'touchcancel'].forEach(function (ev) {
-      root.addEventListener(ev, resume, { passive: true });
-    });
+    function scheduleResume() {
+      if (resumeTimer) clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function () {
+        paused = false;
+        lastTimestamp = null;
+        resumeTimer = null;
+      }, RESUME_DELAY_MS);
+    }
+
+    // Hover / focus: pause indefinitely, resume on mouseleave / focusout.
+    root.addEventListener('mouseenter', pause);
+    root.addEventListener('focusin', pause);
+    root.addEventListener('mouseleave', scheduleResume);
+    root.addEventListener('focusout', scheduleResume);
+
+    // User-driven scroll (wheel, drag, swipe) pauses and then auto-resumes
+    // after a short idle window.
+    viewport.addEventListener('scroll', function () {
+      if (suppressScrollHandler) return;
+      pause();
+      scheduleResume();
+    }, { passive: true });
+
+    // Touch on the strip: pause while finger is down, resume on lift.
+    viewport.addEventListener('touchstart', pause, { passive: true });
+    viewport.addEventListener('touchend', scheduleResume, { passive: true });
+    viewport.addEventListener('touchcancel', scheduleResume, { passive: true });
 
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) pause();
-      else resume();
+      else scheduleResume();
     });
   }
 
