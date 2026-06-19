@@ -420,11 +420,40 @@ img { max-width: 100%; display: block; }
 .reviews-viewport {
   overflow-x: auto;
   overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  /* Reserve 8px below the cards so the scrollbar appearing on hover
+     doesn't shift layout. Cards' visual size unchanged. */
+  padding-bottom: 8px;
+  /* Hidden by default — appears on hover via .reviews-frame:hover below. */
   scrollbar-width: none;
   -ms-overflow-style: none;
-  overscroll-behavior-x: contain;
 }
-.reviews-viewport::-webkit-scrollbar { display: none; }
+.reviews-viewport::-webkit-scrollbar {
+  height: 8px;
+  background: transparent;
+}
+.reviews-viewport::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+  transition: background 0.18s;
+}
+.reviews-viewport::-webkit-scrollbar-track {
+  background: transparent;
+  transition: background 0.18s;
+}
+
+/* When the mouse is over the review strip, reveal the scrollbar so the
+   user knows they can scroll manually. Auto-rotation pauses (JS handles). */
+.reviews-frame:hover .reviews-viewport {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(60, 74, 85, 0.55) rgba(60, 74, 85, 0.10);
+}
+.reviews-frame:hover .reviews-viewport::-webkit-scrollbar-thumb {
+  background: rgba(60, 74, 85, 0.55);
+}
+.reviews-frame:hover .reviews-viewport::-webkit-scrollbar-track {
+  background: rgba(60, 74, 85, 0.10);
+}
 
 .reviews-track {
   display: flex;
