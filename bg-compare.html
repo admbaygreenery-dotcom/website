@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background color comparison — Bay Greenery</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Two halves side-by-side. Each side rebases on a different bg color so we
+       can see how Bay Greenery's lime/slate/gold/green accents read against
+       both warm (brown-grey) and cool (blue-grey) neutrals. */
+    body { margin: 0; }
+    .bg-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+    .bg-compare-half {
+      padding: 2.5rem 2rem 4rem;
+      background: var(--bg-test);
+      border-right: 1px solid rgba(60, 74, 85, 0.10);
+    }
+    .bg-compare-half:last-child { border-right: 0; }
+    .bg-compare-label {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .bg-compare-label .swatch {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1px solid rgba(60, 74, 85, 0.15);
+      background: var(--bg-test);
+    }
+    .bg-compare-label h2 {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      color: var(--color-brand-slate);
+      margin: 0;
+    }
+    .bg-compare-label .hex {
+      font-family: ui-monospace, monospace;
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+    }
+    .bg-compare-label .tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent-green);
+      padding: 0.3rem 0.7rem;
+      background: rgba(90, 124, 58, 0.10);
+      border-radius: var(--radius-pill);
+    }
+
+    /* A minimal sample composition rendered identically on both sides. */
+    .sample-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      max-width: 520px;
+    }
+    .sample-card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 2px 14px rgba(60, 74, 85, 0.08);
+    }
+    .sample-card-title {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-brand-slate);
+      margin: 0 0 0.5rem;
+    }
+    .sample-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0.25rem;
+    }
+    .sample-card li {
+      position: relative;
+      padding-left: 1.3rem;
+      font-size: 0.92rem;
+      color: #444;
+      margin-bottom: 0.35rem;
+    }
+    .sample-card li::before {
+      content: ""; position: absolute; left: 0; top: 0.55rem;
+      width: 7px; height: 7px; background: var(--color-accent-gold);
+      border-radius: 50%;
+    }
+    .sample-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--color-accent-green);
+      color: var(--color-text-light);
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .sample-section-text {
+      color: var(--color-text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .sample-section-text strong { color: var(--color-accent-green); }
+
+    .sample-divider {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    .sample-divider::before, .sample-divider::after {
+      content: ""; flex: 1; height: 1px;
+      background: rgba(60, 74, 85, 0.15);
+    }
+
+    .sample-footer-strip {
+      background: var(--color-footer-bg);
+      color: var(--color-footer-text);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+    }
+    .sample-footer-strip strong {
+      color: var(--color-text-light);
+      font-family: var(--font-title);
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    .compare-instructions {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-top: 1px solid rgba(60, 74, 85, 0.15);
+      padding: 1rem 1.5rem;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      text-align: center;
+      position: sticky;
+      bottom: 0;
+    }
+
+    @media (max-width: 800px) {
+      .bg-compare {
+        grid-template-columns: 1fr;
+        grid-auto-rows: min-content;
+      }
+      .bg-compare-half { border-right: 0; border-bottom: 1px solid rgba(60,74,85,0.10); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-compare">
+
+  <!-- =======================================================
+       OPTION 1 — WARM brown-grey (#F2ECE1)
+       ======================================================= -->
+  <section class="bg-compare-half" style="--bg-test: #F2ECE1;">
+    <div class="bg-compare-label">
+      <span class="swatch"></span>
+      <h2>Option A — Warm</h2>
+      <span class="hex">#F2ECE1</span>
+      <span class="tag">Brown-Grey</span>
+    </div>
+
+    <div class="sample-stack">
+
+      <div class="sample-card">
+        <h3 class="sample-card-title">Service tile against this background</h3>
+        <p class="sample-section-text">Real white card with the gold-bullet list and a green pill button — same as on the homepage services row.</p>
+        <ul>
+          <li>Solutions tailored to your needs</li>
+          <li>Projects large and small</li>
+          <li>Click for a full list of offerings</li>
+        </ul>
+        <span class="sample-pill">Book a Service &rarr;</span>
+      </div>
+
+      <div class="sample-divider">— About-style section text directly on the bg —</div>
+
+      <p class="sample-section-text">
+        <strong>For All Your Landscape Needs.</strong>
+        This paragraph sits directly on the page background — no card behind
+        it. Bay Greenery's accent green is highlighted at the start so you
+        can see how it reads against this neutral.
+      </p>
+
+      <div class="sample-footer-strip">
+        <strong>Footer strip</strong>
+        ops@baygreenery.com &nbsp;·&nbsp; (408) 454-8078
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =======================================================
+       OPTION 2 — COOL blue-grey (#DAE0ED)
+       ======================================================= -->
+  <section class="bg-compare-half" style="--bg-test: #DAE0ED;">
+    <div class="bg-compare-label">
+      <span class="swatch"></span>
+      <h2>Option B — Cool</h2>
+      <span class="hex">#DAE0ED</span>
+      <span class="tag">Blue-Grey</span>
+    </div>
+
+    <div class="sample-stack">
+
+      <div class="sample-card">
+        <h3 class="sample-card-title">Service tile against this background</h3>
+        <p class="sample-section-text">Real white card with the gold-bullet list and a green pill button — same as on the homepage services row.</p>
+        <ul>
+          <li>Solutions tailored to your needs</li>
+          <li>Projects large and small</li>
+          <li>Click for a full list of offerings</li>
+        </ul>
+        <span class="sample-pill">Book a Service &rarr;</span>
+      </div>
+
+      <div class="sample-divider">— About-style section text directly on the bg —</div>
+
+      <p class="sample-section-text">
+        <strong>For All Your Landscape Needs.</strong>
+        This paragraph sits directly on the page background — no card behind
+        it. Bay Greenery's accent green is highlighted at the start so you
+        can see how it reads against this neutral.
+      </p>
+
+      <div class="sample-footer-strip">
+        <strong>Footer strip</strong>
+        ops@baygreenery.com &nbsp;·&nbsp; (408) 454-8078
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<div class="compare-instructions">
+  Side-by-side comparison only — not a navigable page. Pick a side: <strong>A (warm)</strong> or <strong>B (cool)</strong>, then we apply that color site-wide.
+</div>
+
+</body>
+</html>

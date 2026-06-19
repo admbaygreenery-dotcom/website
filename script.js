@@ -89,9 +89,26 @@
       }
     });
 
-    // License text
+    // Mailing address — multi-line, rendered as separate text nodes.
+    document.querySelectorAll('.js-mailing-address').forEach(function (el) {
+      if (!Array.isArray(config.mailingAddress) || !config.mailingAddress.length) {
+        hideElementOrParent(el);
+        return;
+      }
+      el.textContent = '';
+      config.mailingAddress.forEach(function (line, i) {
+        if (i > 0) el.appendChild(document.createElement('br'));
+        el.appendChild(document.createTextNode(line));
+      });
+    });
+
+    // License + Bonded/Insured text
     document.querySelectorAll('[data-config="license"]').forEach(function (el) {
       if (config.license) el.textContent = config.license;
+    });
+
+    document.querySelectorAll('[data-config="bonded-insured"]').forEach(function (el) {
+      if (config.bondedAndInsured) el.textContent = config.bondedAndInsured;
     });
   }
 
