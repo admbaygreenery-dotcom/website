@@ -21,13 +21,14 @@
     "@id": "https://www.baygreenery.com",
     "url": "https://www.baygreenery.com",
     "telephone": "+1-408-454-8078",
-    "email": "admbaygreenery@gmail.com",
+    "email": "ops@baygreenery.com",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "San Jose",
+      "streetAddress": "10080 N Wolfe Ave, Suite SW3-200",
+      "addressLocality": "Cupertino",
       "addressRegion": "CA",
-      "postalCode": "95128",
+      "postalCode": "95014",
       "addressCountry": "US"
     },
     "areaServed": ["San Jose", "South Bay", "Peninsula", "Bay Area"],
@@ -73,8 +74,8 @@
   <section class="section services-section" id="services">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Services for All Your Landscape Needs</h2>
-        <p class="section-subtitle">Construction, Maintenance &amp; Repairs for Your Outdoor Space</p>
+        <h2 class="section-title">For All Your Landscape Needs</h2>
+        <p class="section-subtitle">Construction, Service, &amp; Maintenance Of Your Outdoor Space</p>
       </div>
 
       <div class="carousel" id="servicesCarousel">
@@ -244,13 +245,29 @@
         <p class="section-subtitle">Our recent endeavours.</p>
       </div>
 
+      <!-- Featured photo tiles. Positions 4, 5, 6 use fallback gallery images;
+           when Nathan's new shots arrive, drop them in as
+           images/featured-04.jpg, featured-05.jpg, featured-06.jpg and update
+           the background-image URLs below. -->
       <div class="gallery-grid">
-        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-02.jpg');" aria-label="Project gallery"></a>
-        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-11.jpg');" aria-label="Project gallery"></a>
-        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-20.jpg');" aria-label="Project gallery"></a>
-        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-07.jpg');" aria-label="Project gallery"></a>
-        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-17.jpg');" aria-label="Project gallery"></a>
-        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-23.jpg');" aria-label="Project gallery"></a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-02.jpg');" aria-label="Design to Build">
+          <span class="gallery-tile-label is-project-type">Design to Build</span>
+        </a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-11.jpg');" aria-label="Landscape Lighting">
+          <span class="gallery-tile-label is-project-type">Landscape Lighting</span>
+        </a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-20.jpg');" aria-label="Retaining Wall">
+          <span class="gallery-tile-label is-project-type">Retaining Wall</span>
+        </a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-01.jpg');" aria-label="Design to Build">
+          <span class="gallery-tile-label is-project-type">Design to Build</span>
+        </a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-23.jpg');" aria-label="Sod Replacement">
+          <span class="gallery-tile-label is-project-type">Sod Replacement</span>
+        </a>
+        <a class="gallery-tile" href="portfolio.html" style="background-image:url('images/gallery-12.jpg');" aria-label="Landscape Lighting">
+          <span class="gallery-tile-label is-project-type">Landscape Lighting</span>
+        </a>
       </div>
 
       <div class="gallery-cta-wrap">
@@ -288,9 +305,11 @@
 
         <div class="footer-block">
           <h3>Get in Touch</h3>
-          <a class="js-email-link" href="mailto:admbaygreenery@gmail.com">admbaygreenery@gmail.com</a>
+          <a class="js-email-link" href="mailto:ops@baygreenery.com">ops@baygreenery.com</a>
           <a class="js-phone-link" href="tel:+14084548078">(408) 454-8078</a>
-          <p data-config="address">San Jose, CA 95128</p>
+
+          <h4>Mailing Address</h4>
+          <address class="footer-mailing-address js-mailing-address">Bay Greenery, LLC<br>10080 N Wolfe Ave<br>Suite SW3-200<br>Cupertino, CA 95014</address>
         </div>
 
         <div class="footer-block">
@@ -307,6 +326,7 @@
       </div>
 
       <div class="footer-license" data-config="license">CA License C-27 #1146610</div>
+      <div class="footer-bonded" data-config="bonded-insured">Bonded and Insured</div>
     </div>
   </footer>
 

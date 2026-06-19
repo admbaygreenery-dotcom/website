@@ -52,9 +52,9 @@
   --color-text-muted: #5a5a5a;
   --color-text-light: #ffffff;
 
-  --color-hero-overlay: rgba(245, 240, 232, 0.68);  /* Cream wash so the colored logo reads */
+  --color-hero-overlay: rgba(20, 28, 36, 0.18);  /* Slight cool slate tint — keeps the photo legible */
 
-  --color-footer-bg: #2a3a30;
+  --color-footer-bg: #3c4a55;                    /* Logotype slate */
   --color-footer-text: rgba(255, 255, 255, 0.88);
 
   /* Type */
@@ -172,8 +172,8 @@ img { max-width: 100%; display: block; }
   inset: 0;
   background: radial-gradient(
     ellipse at center,
-    rgba(245, 240, 232, 0) 30%,
-    rgba(245, 240, 232, 0.35) 100%
+    rgba(245, 240, 232, 0) 35%,
+    rgba(245, 240, 232, 0.15) 100%
   );
   z-index: 1;
 }
@@ -202,13 +202,16 @@ img { max-width: 100%; display: block; }
   max-width: 540px;
   width: 88%;
   margin: 0 auto 1rem;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.30));
 }
 
 .hero-license {
-  color: var(--color-brand-slate);
-  font-size: 1rem;
-  letter-spacing: 0.05em;
+  color: var(--color-text-light);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 
 .hero-cta {
@@ -249,7 +252,7 @@ img { max-width: 100%; display: block; }
   .hero { min-height: 100vh; }
   .hero-logo { max-width: 340px; }
   .hero-cta { font-size: 1.2rem; padding: 0.9rem 1.85rem; }
-  .hero-license { font-size: 0.9rem; }
+  .hero-license { font-size: 1rem; }
 }
 
 /* ----------------------------------------------------------
@@ -772,6 +775,24 @@ img { max-width: 100%; display: block; }
   text-decoration: underline;
 }
 
+.footer-block h4 {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 1.5rem 0 0.45rem 0;
+}
+
+.footer-mailing-address {
+  font-style: normal;
+  color: var(--color-footer-text);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
 .footer-license {
   text-align: center;
   border-top: 1px solid rgba(255,255,255,0.15);
@@ -779,6 +800,14 @@ img { max-width: 100%; display: block; }
   font-size: 0.85rem;
   color: rgba(255,255,255,0.7);
   letter-spacing: 0.04em;
+}
+
+.footer-bonded {
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.04em;
+  margin-top: 0.35rem;
 }
 
 @media (max-width: 700px) {
@@ -864,6 +893,14 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   color: var(--color-text-muted);
   margin: 1.25rem 0 0.5rem;
+}
+
+/* Second-and-later nav groups get a visible divider so the two
+   project sets read as distinct groups. */
+.portfolio-nav-header ~ .portfolio-nav-header {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(60, 74, 85, 0.12);
 }
 
 .portfolio-nav-link {
@@ -1147,11 +1184,13 @@ img { max-width: 100%; display: block; }
   aspect-ratio: 4 / 3;
 }
 
-.project-photo-grid .gallery-tile-label {
+/* Tile bubble — used both inside .project-photo-grid (Before/During/After)
+   and on the homepage .gallery-grid for project-type labels. */
+.gallery-tile-label {
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
-  background: rgba(60, 74, 85, 0.85);
+  background: rgba(60, 74, 85, 0.85);    /* slate default */
   color: #fff;
   font-size: 0.7rem;
   font-weight: 700;
@@ -1162,8 +1201,14 @@ img { max-width: 100%; display: block; }
   z-index: 2;
 }
 
-.project-photo-grid .gallery-tile-label.is-after {
-  background: rgba(90, 124, 58, 0.92);
+.gallery-tile-label.is-after {
+  background: rgba(90, 124, 58, 0.92);   /* accent green */
+}
+
+/* Project-type bubble (homepage featured gallery). Same shape, distinct
+   slate tone so it doesn't compete with Before/After semantics. */
+.gallery-tile-label.is-project-type {
+  background: rgba(60, 74, 85, 0.85);
 }
 
 .project-photo-grid .gallery-tile-label.is-during {

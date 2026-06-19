@@ -28,12 +28,21 @@ window.BAY_GREENERY_CONFIG = {
   googleAnalyticsId: '',
 
   /* Phone, email and address used in the footer. */
-  email: 'admbaygreenery@gmail.com',
+  email: 'ops@baygreenery.com',
   phone: '(408) 454-8078',
   phoneTel: '+14084548078',
-  address: 'San Jose, CA 95128',
   serviceArea: ['South Bay', 'Peninsula'],
+
+  /* Mailing address — shown under a "Mailing Address" subheader in the
+     footer. Each array entry renders as its own line. */
+  mailingAddress: [
+    'Bay Greenery, LLC',
+    '10080 N Wolfe Ave',
+    'Suite SW3-200',
+    'Cupertino, CA 95014',
+  ],
 
   /* CA contractor license — displayed on hero + footer. */
   license: 'CA License C-27 #1146610',
+  bondedAndInsured: 'Bonded and Insured',
 };
