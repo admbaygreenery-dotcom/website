@@ -17,20 +17,48 @@
 (function () {
   'use strict';
 
-  if (new URLSearchParams(window.location.search).get('compare') !== '1') {
+  const queryParams = new URLSearchParams(window.location.search);
+  if (queryParams.get('compare') !== '1') {
     return;
   }
 
-  const COLOR_WARM = '#F2ECE1';
-  const COLOR_COOL = '#DAE0ED';
-  const LABEL_WARM = 'A · Warm · #F2ECE1';
-  const LABEL_COOL = 'B · Cool · #DAE0ED';
+  const DEFAULT_WARM = '#F2ECE1';
+  const DEFAULT_COOL = '#DAE0ED';
 
-  // Apply base color to the live page.
-  document.documentElement.style.setProperty('--color-bg-main', COLOR_WARM);
+  // Accept "RRGGBB", "#RRGGBB", or "#RGB"; return normalized "#RRGGBB" or null.
+  function normalizeHex(input) {
+    if (!input) return null;
+    const v = String(input).trim().replace(/^#/, '');
+    if (/^[0-9a-fA-F]{6}$/.test(v)) return '#' + v.toUpperCase();
+    if (/^[0-9a-fA-F]{3}$/.test(v)) {
+      return '#' + v.split('').map(function (c) { return c + c; }).join('').toUpperCase();
+    }
+    return null;
+  }
 
-  // Persist internal nav inside compare mode so Nathan can walk the site
-  // without losing the slider.
+  // Use the URL params if present, fall back to the defaults Nathan picked.
+  let warmHex = normalizeHex(queryParams.get('warm')) || DEFAULT_WARM;
+  let coolHex = normalizeHex(queryParams.get('cool')) || DEFAULT_COOL;
+
+  // Apply the warm color to the live page (the natural-flow layer).
+  document.documentElement.style.setProperty('--color-bg-main', warmHex);
+
+  function labelText(letter, hex) {
+    return letter + ' · ' + hex;
+  }
+
+  // Update the URL bar (and the param map) without reloading the page so a
+  // shared link reproduces the same comparison.
+  function syncUrlParams() {
+    const u = new URL(window.location.href);
+    u.searchParams.set('compare', '1');
+    u.searchParams.set('warm', warmHex);
+    u.searchParams.set('cool', coolHex);
+    window.history.replaceState(null, '', u.pathname + u.search + u.hash);
+  }
+
+  // Persist internal nav inside compare mode (including any custom colors) so
+  // Nathan can walk the site without losing the slider state.
   function persistCompareOnLinks() {
     document.querySelectorAll('a[href]').forEach(function (a) {
       const href = a.getAttribute('href');
@@ -41,6 +69,8 @@
         const u = new URL(href, window.location.href);
         if (u.origin !== window.location.origin) return;
         u.searchParams.set('compare', '1');
+        u.searchParams.set('warm', warmHex);
+        u.searchParams.set('cool', coolHex);
         a.setAttribute('href', u.pathname + u.search + u.hash);
       } catch (e) { /* ignore malformed hrefs */ }
     });
@@ -61,7 +91,7 @@
     const coolLayer = warmLayer.cloneNode(true);
     coolLayer.className = 'bgc-layer bgc-cool';
     coolLayer.setAttribute('aria-hidden', 'true');
-    coolLayer.style.setProperty('--color-bg-main', COLOR_COOL);
+    coolLayer.style.setProperty('--color-bg-main', coolHex);
     // The clone shouldn't intercept input.
     coolLayer.style.pointerEvents = 'none';
     // Remove any scripts in the cloned tree so they don't re-execute.
@@ -119,7 +149,18 @@
       '  text-transform: uppercase;',
       '  box-shadow: 0 2px 10px rgba(0,0,0,0.18);',
       '  z-index: 99999;',
-      '  pointer-events: none;',
+      '  cursor: pointer;',
+      '  border: 0;',
+      '  transition: box-shadow 0.18s, transform 0.15s;',
+      '}',
+      '.bgc-label:hover {',
+      '  box-shadow: 0 4px 16px rgba(0,0,0,0.28);',
+      '  transform: translateY(-1px);',
+      '}',
+      '.bgc-label::after {',
+      '  content: " ✎";',
+      '  opacity: 0.55;',
+      '  margin-left: 2px;',
       '}',
       '.bgc-label-warm { left: 14px; }',
       '.bgc-label-cool { right: 14px; }',
@@ -152,15 +193,49 @@
     handle.appendChild(grip);
     document.body.appendChild(handle);
 
-    const labelWarm = document.createElement('div');
+    const labelWarm = document.createElement('button');
     labelWarm.className = 'bgc-label bgc-label-warm';
-    labelWarm.textContent = LABEL_WARM;
+    labelWarm.type = 'button';
+    labelWarm.title = 'Click to change this color';
+    labelWarm.textContent = labelText('A', warmHex);
     document.body.appendChild(labelWarm);
 
-    const labelCool = document.createElement('div');
+    const labelCool = document.createElement('button');
     labelCool.className = 'bgc-label bgc-label-cool';
-    labelCool.textContent = LABEL_COOL;
+    labelCool.type = 'button';
+    labelCool.title = 'Click to change this color';
+    labelCool.textContent = labelText('B', coolHex);
     document.body.appendChild(labelCool);
+
+    // Clicking a label prompts for a new hex; updates that side's color,
+    // the URL, and any internal links so the choice persists.
+    function editColor(side) {
+      const current = side === 'warm' ? warmHex : coolHex;
+      const raw = window.prompt(
+        'Enter a hex color for side ' + (side === 'warm' ? 'A (left)' : 'B (right)') +
+        '.\nExamples: #F2ECE1, F2ECE1, #FEC',
+        current
+      );
+      if (raw == null) return; // cancelled
+      const next = normalizeHex(raw);
+      if (!next) {
+        window.alert('That doesn\'t look like a hex color. Try something like #F2ECE1 or FEC.');
+        return;
+      }
+      if (side === 'warm') {
+        warmHex = next;
+        document.documentElement.style.setProperty('--color-bg-main', warmHex);
+        labelWarm.textContent = labelText('A', warmHex);
+      } else {
+        coolHex = next;
+        coolLayer.style.setProperty('--color-bg-main', coolHex);
+        labelCool.textContent = labelText('B', coolHex);
+      }
+      syncUrlParams();
+      persistCompareOnLinks();
+    }
+    labelWarm.addEventListener('click', function () { editColor('warm'); });
+    labelCool.addEventListener('click', function () { editColor('cool'); });
 
     const exit = document.createElement('button');
     exit.className = 'bgc-exit';
@@ -168,6 +243,8 @@
     exit.addEventListener('click', function () {
       const u = new URL(window.location.href);
       u.searchParams.delete('compare');
+      u.searchParams.delete('warm');
+      u.searchParams.delete('cool');
       window.location.replace(u.pathname + (u.search ? u.search : '') + u.hash);
     });
     document.body.appendChild(exit);
@@ -209,6 +286,7 @@
   }
 
   function init() {
+    syncUrlParams();
     persistCompareOnLinks();
     buildOverlay();
   }
