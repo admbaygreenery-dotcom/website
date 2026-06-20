@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Color comparison — Bay Greenery</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <style>
+    /* ---------- Wrapper layout ----------
+       Both iframes are full-viewport, stacked. The right one (cool) sits
+       on top with a clip-path that reveals just its right portion. The
+       slider drags the clip edge. clip-path also blocks pointer events
+       in the clipped (invisible) region, so left clicks go to the warm
+       iframe and right clicks go to the cool iframe naturally.
+    */
+    :root {
+      --bgc-divider: 50%;
+    }
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f5f0e8; }
+    body { font-family: system-ui, -apple-system, sans-serif; }
+
+    .bgc-frame {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      border: 0;
+      background: #f5f0e8;
+    }
+    .bgc-frame.cool {
+      z-index: 2;
+      clip-path: inset(0 0 0 var(--bgc-divider));
+      -webkit-clip-path: inset(0 0 0 var(--bgc-divider));
+    }
+    .bgc-frame.warm { z-index: 1; }
+
+    /* ---------- Divider handle ---------- */
+    .bgc-handle {
+      position: fixed;
+      top: 0; bottom: 0;
+      left: var(--bgc-divider);
+      width: 2px;
+      background: #fff;
+      box-shadow: 0 0 12px rgba(0,0,0,0.55);
+      z-index: 1000;
+      cursor: ew-resize;
+      transform: translateX(-1px);
+      user-select: none;
+    }
+    .bgc-grip {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700; color: #3c4a55;
+      cursor: ew-resize;
+    }
+
+    /* ---------- Top labels (accordion triggers) ---------- */
+    .bgc-label {
+      position: fixed; top: 14px;
+      background: rgba(255,255,255,0.95);
+      color: #3c4a55;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 0; cursor: pointer;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+      z-index: 1100;
+      transition: box-shadow 0.18s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .bgc-label:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.28); transform: translateY(-1px); }
+    .bgc-label-warm { left: 14px; }
+    .bgc-label-cool { right: 14px; }
+    .bgc-label-caret { font-size: 9px; opacity: 0.55; transition: transform 0.2s; }
+    .bgc-label.open .bgc-label-caret { transform: rotate(180deg); }
+
+    /* ---------- Accordion panel ---------- */
+    .bgc-panel {
+      position: fixed; top: 52px;
+      background: rgba(255,255,255,0.97);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      border-radius: 14px;
+      box-shadow: 0 14px 38px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.10);
+      padding: 10px;
+      z-index: 1100;
+      min-width: 252px;
+      display: none;
+    }
+    .bgc-panel.open { display: block; }
+    .bgc-panel-warm { left: 14px; }
+    .bgc-panel-cool { right: 14px; }
+    .bgc-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 6px; border-radius: 8px;
+    }
+    .bgc-row:hover { background: rgba(60,74,85,0.05); }
+    .bgc-row-swatch {
+      width: 22px; height: 22px; border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.10); flex-shrink: 0;
+    }
+    .bgc-row-name {
+      font-size: 12px; font-weight: 600; color: #3c4a55;
+      flex: 1; text-align: left;
+    }
+    .bgc-row-hex {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 11px; color: #3c4a55;
+      background: rgba(60,74,85,0.07);
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 0; cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .bgc-row-hex:hover { background: rgba(60,74,85,0.16); }
+    .bgc-panel-foot {
+      margin-top: 6px; padding-top: 8px;
+      border-top: 1px solid rgba(60,74,85,0.10);
+      display: flex; gap: 8px; justify-content: space-between;
+      font-size: 10px; color: #888;
+      padding-left: 6px; padding-right: 6px;
+      align-items: center;
+    }
+    .bgc-panel-reset {
+      background: transparent; border: 0; cursor: pointer;
+      color: #5a7c3a; font-weight: 700; font-size: 10px;
+      padding: 0; letter-spacing: 0.04em; text-transform: uppercase;
+    }
+
+    /* ---------- Exit button ---------- */
+    .bgc-exit {
+      position: fixed; bottom: 14px; right: 14px;
+      background: #3c4a55; color: #fff;
+      padding: 8px 14px; border-radius: 999px;
+      border: 0; cursor: pointer;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.30);
+      z-index: 1100;
+    }
+
+    /* ---------- Path indicator (which page is shown) ---------- */
+    .bgc-path {
+      position: fixed; bottom: 14px; left: 14px;
+      background: rgba(255,255,255,0.92);
+      color: #3c4a55;
+      padding: 6px 12px; border-radius: 999px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+      z-index: 1100;
+      max-width: 50vw;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<iframe class="bgc-frame warm" id="bgcFrameWarm" title="Warm side"></iframe>
+<iframe class="bgc-frame cool" id="bgcFrameCool" title="Cool side"></iframe>
+
+<div class="bgc-handle" id="bgcHandle" role="slider" aria-label="Color comparison divider"
+     aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+  <div class="bgc-grip">⬌</div>
+</div>
+
+<button type="button" class="bgc-label bgc-label-warm" id="bgcLabelWarm" aria-expanded="false">
+  <span>A · Warm</span>
+  <span class="bgc-label-caret">▾</span>
+</button>
+<button type="button" class="bgc-label bgc-label-cool" id="bgcLabelCool" aria-expanded="false">
+  <span>B · Cool</span>
+  <span class="bgc-label-caret">▾</span>
+</button>
+
+<div class="bgc-panel bgc-panel-warm" id="bgcPanelWarm" aria-hidden="true"></div>
+<div class="bgc-panel bgc-panel-cool" id="bgcPanelCool" aria-hidden="true"></div>
+
+<div class="bgc-path" id="bgcPath">/index.html</div>
+<button type="button" class="bgc-exit" id="bgcExit">✕  Exit Compare</button>
+
+<script>
+(function () {
+  'use strict';
+
+  // -------- Editable color variables (matches bg-compare.js VAR_MAP) --------
+  const EDITABLE_VARS = [
+    { key: 'bg',     label: 'Background',   warm: '#F2ECE1', cool: '#DAE0ED' },
+    { key: 'slate',  label: 'Brand Slate',  warm: '#3C4A55', cool: '#3C4A55' },
+    { key: 'green',  label: 'Accent Green', warm: '#5A7C3A', cool: '#5A7C3A' },
+    { key: 'gold',   label: 'Accent Gold',  warm: '#C9A04A', cool: '#C9A04A' },
+    { key: 'footer', label: 'Footer BG',    warm: '#3C4A55', cool: '#3C4A55' },
+  ];
+
+  function normalizeHex(input) {
+    if (!input) return null;
+    const v = String(input).trim().replace(/^#/, '');
+    if (/^[0-9a-fA-F]{6}$/.test(v)) return '#' + v.toUpperCase();
+    if (/^[0-9a-fA-F]{3}$/.test(v)) {
+      return '#' + v.split('').map(function (c) { return c + c; }).join('').toUpperCase();
+    }
+    return null;
+  }
+
+  // -------- State init from URL --------
+  const urlParams = new URLSearchParams(window.location.search);
+  // ?path=portfolio.html or default to index.html
+  let currentPath = urlParams.get('path') || 'index.html';
+  // Strip a leading slash if present, normalize.
+  currentPath = currentPath.replace(/^\/+/, '');
+
+  const state = { warm: {}, cool: {} };
+  EDITABLE_VARS.forEach(function (v) {
+    state.warm[v.key] = normalizeHex(urlParams.get('warm_' + v.key)) || v.warm;
+    state.cool[v.key] = normalizeHex(urlParams.get('cool_' + v.key)) || v.cool;
+  });
+
+  // -------- URL sync (replace state, no reload) --------
+  function syncWrapperUrl() {
+    const u = new URL(window.location.href);
+    u.searchParams.set('path', currentPath);
+    EDITABLE_VARS.forEach(function (v) {
+      u.searchParams.set('warm_' + v.key, state.warm[v.key]);
+      u.searchParams.set('cool_' + v.key, state.cool[v.key]);
+    });
+    window.history.replaceState(null, '', u.pathname + u.search);
+  }
+
+  // -------- Build iframe URL for a side --------
+  function buildSrc(side, path) {
+    const u = new URL(path, window.location.href);
+    EDITABLE_VARS.forEach(function (v) {
+      u.searchParams.set(v.key, state[side][v.key]);
+    });
+    return u.pathname + u.search + u.hash;
+  }
+
+  const frameWarm = document.getElementById('bgcFrameWarm');
+  const frameCool = document.getElementById('bgcFrameCool');
+  const pathLabel = document.getElementById('bgcPath');
+
+  function loadFrames(path) {
+    currentPath = path;
+    pathLabel.textContent = '/' + currentPath;
+    frameWarm.src = buildSrc('warm', currentPath);
+    frameCool.src = buildSrc('cool', currentPath);
+    syncWrapperUrl();
+  }
+
+  // -------- Live color updates via postMessage --------
+  function pushColorsToFrame(frame, side) {
+    if (!frame.contentWindow) return;
+    try {
+      frame.contentWindow.postMessage({ type: 'bgc:colors', colors: state[side] }, '*');
+    } catch (e) {}
+  }
+  function pushColors() {
+    pushColorsToFrame(frameWarm, 'warm');
+    pushColorsToFrame(frameCool, 'cool');
+  }
+
+  // When an iframe says ready, push current colors immediately.
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.type !== 'bgc:ready') return;
+    if (e.source === frameWarm.contentWindow) pushColorsToFrame(frameWarm, 'warm');
+    if (e.source === frameCool.contentWindow) pushColorsToFrame(frameCool, 'cool');
+  });
+
+  // -------- Navigation + scroll sync --------
+  // When the warm iframe navigates, mirror that path to cool.
+  let suppressNavSync = false;
+  function setupFrameNavSync(srcFrame, side, otherFrame, otherSide) {
+    srcFrame.addEventListener('load', function () {
+      try {
+        const loc = srcFrame.contentWindow.location;
+        const path = loc.pathname.replace(/^\/+/, '') + loc.search + loc.hash;
+        // Strip our color params from the path before mirroring so the
+        // other side can apply its own colors.
+        const u = new URL(loc.href);
+        EDITABLE_VARS.forEach(function (v) { u.searchParams.delete(v.key); });
+        const cleanPath = u.pathname.replace(/^\/+/, '') + u.search + u.hash;
+        if (suppressNavSync) return;
+        if (cleanPath !== currentPath) {
+          suppressNavSync = true;
+          currentPath = cleanPath;
+          pathLabel.textContent = '/' + cleanPath.split('?')[0].split('#')[0];
+          otherFrame.src = buildSrc(otherSide, cleanPath);
+          syncWrapperUrl();
+          setTimeout(function () { suppressNavSync = false; }, 200);
+        }
+        attachScrollSync(srcFrame, otherFrame);
+      } catch (err) { /* cross-origin guard; same-origin in our case */ }
+    });
+  }
+
+  // Scroll sync: when either iframe scrolls, mirror to the other.
+  function attachScrollSync(srcFrame, dstFrame) {
+    try {
+      const srcWin = srcFrame.contentWindow;
+      if (srcWin.__bgcScrollBound) return;
+      srcWin.__bgcScrollBound = true;
+      let ticking = false;
+      srcWin.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        srcWin.requestAnimationFrame(function () {
+          ticking = false;
+          if (!dstFrame.contentWindow) return;
+          try { dstFrame.contentWindow.scrollTo(0, srcWin.scrollY); } catch (e) {}
+        });
+      }, { passive: true });
+    } catch (e) {}
+  }
+
+  setupFrameNavSync(frameWarm, 'warm', frameCool, 'cool');
+  setupFrameNavSync(frameCool, 'cool', frameWarm, 'warm');
+
+  // -------- Build accordion panels --------
+  function makePanel(side, panelEl) {
+    panelEl.innerHTML = '';
+    EDITABLE_VARS.forEach(function (v) {
+      const row = document.createElement('div');
+      row.className = 'bgc-row';
+
+      const swatch = document.createElement('span');
+      swatch.className = 'bgc-row-swatch';
+      swatch.style.background = state[side][v.key];
+
+      const name = document.createElement('span');
+      name.className = 'bgc-row-name';
+      name.textContent = v.label;
+
+      const hexBtn = document.createElement('button');
+      hexBtn.type = 'button';
+      hexBtn.className = 'bgc-row-hex';
+      hexBtn.textContent = state[side][v.key];
+      hexBtn.addEventListener('click', function () {
+        const raw = window.prompt(
+          'Enter a hex for ' + v.label + ' on side ' + (side === 'warm' ? 'A' : 'B') + '.',
+          state[side][v.key]
+        );
+        if (raw == null) return;
+        const next = normalizeHex(raw);
+        if (!next) { window.alert('Not a valid hex. Try #F2ECE1 or FEC.'); return; }
+        state[side][v.key] = next;
+        swatch.style.background = next;
+        hexBtn.textContent = next;
+        pushColorsToFrame(side === 'warm' ? frameWarm : frameCool, side);
+        syncWrapperUrl();
+      });
+
+      row.appendChild(swatch);
+      row.appendChild(name);
+      row.appendChild(hexBtn);
+      panelEl.appendChild(row);
+    });
+
+    const foot = document.createElement('div');
+    foot.className = 'bgc-panel-foot';
+    const note = document.createElement('span');
+    note.textContent = 'Click any hex to edit';
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'bgc-panel-reset';
+    reset.textContent = 'Reset side';
+    reset.addEventListener('click', function () {
+      EDITABLE_VARS.forEach(function (v) { state[side][v.key] = v[side]; });
+      makePanel(side, panelEl);
+      pushColorsToFrame(side === 'warm' ? frameWarm : frameCool, side);
+      syncWrapperUrl();
+    });
+    foot.appendChild(note);
+    foot.appendChild(reset);
+    panelEl.appendChild(foot);
+  }
+
+  const panelWarm = document.getElementById('bgcPanelWarm');
+  const panelCool = document.getElementById('bgcPanelCool');
+  const labelWarm = document.getElementById('bgcLabelWarm');
+  const labelCool = document.getElementById('bgcLabelCool');
+
+  makePanel('warm', panelWarm);
+  makePanel('cool', panelCool);
+
+  function setOpen(side, open) {
+    const label = side === 'warm' ? labelWarm : labelCool;
+    const panel = side === 'warm' ? panelWarm : panelCool;
+    label.classList.toggle('open', open);
+    label.setAttribute('aria-expanded', open ? 'true' : 'false');
+    panel.classList.toggle('open', open);
+    panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+  }
+  labelWarm.addEventListener('click', function () {
+    const isOpen = labelWarm.classList.contains('open');
+    setOpen('warm', !isOpen);
+    setOpen('cool', false);
+  });
+  labelCool.addEventListener('click', function () {
+    const isOpen = labelCool.classList.contains('open');
+    setOpen('cool', !isOpen);
+    setOpen('warm', false);
+  });
+  document.addEventListener('mousedown', function (e) {
+    if (panelWarm.contains(e.target) || labelWarm.contains(e.target)) return;
+    if (panelCool.contains(e.target) || labelCool.contains(e.target)) return;
+    setOpen('warm', false);
+    setOpen('cool', false);
+  });
+
+  // -------- Slider drag --------
+  const handle = document.getElementById('bgcHandle');
+  let dragging = false;
+  function setDivider(clientX) {
+    const pct = Math.max(0, Math.min(100, (clientX / window.innerWidth) * 100));
+    document.documentElement.style.setProperty('--bgc-divider', pct + '%');
+    handle.setAttribute('aria-valuenow', String(Math.round(pct)));
+  }
+  handle.addEventListener('mousedown', function (e) { dragging = true; e.preventDefault(); });
+  window.addEventListener('mousemove', function (e) { if (dragging) setDivider(e.clientX); });
+  window.addEventListener('mouseup', function () { dragging = false; });
+  handle.addEventListener('touchstart', function () { dragging = true; }, { passive: true });
+  window.addEventListener('touchmove', function (e) {
+    if (!dragging || !e.touches.length) return;
+    setDivider(e.touches[0].clientX);
+  }, { passive: true });
+  window.addEventListener('touchend', function () { dragging = false; });
+
+  // -------- Exit --------
+  document.getElementById('bgcExit').addEventListener('click', function () {
+    window.location.href = currentPath || 'index.html';
+  });
+
+  // -------- Initial load --------
+  loadFrames(currentPath);
+})();
+</script>
+
+</body>
+</html>

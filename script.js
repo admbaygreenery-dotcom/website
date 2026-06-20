@@ -79,19 +79,32 @@
       if (config.phone) el.textContent = config.phone;
     });
 
-    document.querySelectorAll('[data-config="address"]').forEach(function (el) {
-      if (config.address) el.textContent = config.address;
-    });
-
     document.querySelectorAll('[data-config="service-area"]').forEach(function (el) {
       if (Array.isArray(config.serviceArea)) {
         el.textContent = config.serviceArea.join(' • ');
       }
     });
 
-    // License text
+    // Mailing address — multi-line, rendered as separate text nodes.
+    document.querySelectorAll('.js-mailing-address').forEach(function (el) {
+      if (!Array.isArray(config.mailingAddress) || !config.mailingAddress.length) {
+        hideElementOrParent(el);
+        return;
+      }
+      el.textContent = '';
+      config.mailingAddress.forEach(function (line, i) {
+        if (i > 0) el.appendChild(document.createElement('br'));
+        el.appendChild(document.createTextNode(line));
+      });
+    });
+
+    // License + Bonded/Insured text
     document.querySelectorAll('[data-config="license"]').forEach(function (el) {
       if (config.license) el.textContent = config.license;
+    });
+
+    document.querySelectorAll('[data-config="bonded-insured"]').forEach(function (el) {
+      if (config.bondedAndInsured) el.textContent = config.bondedAndInsured;
     });
   }
 
@@ -187,8 +200,9 @@
      jump). The DOM holds exactly the 6 reviews at all times — no clones,
      no duplicates side-by-side.
 
-     The scroll handler distinguishes the user's scroll from ours by
-     comparing the new scrollLeft against the value we just wrote.
+     Auto-scroll pauses ONLY while the mouse is actually over the strip
+     (mouseenter/mouseleave). When the user moves their mouse away the
+     drift resumes immediately. Touch is handled in parallel for mobile.
      ----------------------------------------------------------------- */
   function initReviewsAutoScroll() {
     const root = document.getElementById('reviewsCarousel');
@@ -199,49 +213,35 @@
     if (!track.querySelectorAll('.review-card').length) return;
 
     const SPEED_PX_PER_SECOND = 28;
-    const RESUME_DELAY_MS = 2500;
-    const USER_SCROLL_TOLERANCE_PX = 3;
+    const TOUCH_RESUME_DELAY_MS = 1200;
 
     let paused = false;
     let lastTimestamp = null;
-    let resumeTimer = null;
-    let expectedScrollLeft = 0;
+    let touchResumeTimer = null;
 
     function trackGap() {
       const s = window.getComputedStyle(track);
       return parseFloat(s.columnGap || s.gap || '0') || 0;
     }
 
-    function setScrollLeft(value) {
-      expectedScrollLeft = value;
-      viewport.scrollLeft = value;
-    }
-
-    // If the first card has scrolled fully off the left edge, move it to
-    // the end of the track and shift scrollLeft back by the same amount.
-    // Net effect: the user sees one card slide out on the left and another
-    // appear on the right, like a conveyor belt.
     function recycleIfNeeded() {
       const first = track.firstElementChild;
       if (!first) return;
       const stride = first.offsetWidth + trackGap();
       if (viewport.scrollLeft >= stride) {
         track.appendChild(first);
-        setScrollLeft(viewport.scrollLeft - stride);
+        viewport.scrollLeft = viewport.scrollLeft - stride;
       }
     }
 
     function step(timestamp) {
-      if (lastTimestamp == null) {
-        lastTimestamp = timestamp;
-        expectedScrollLeft = viewport.scrollLeft;
-      }
+      if (lastTimestamp == null) lastTimestamp = timestamp;
       const dt = (timestamp - lastTimestamp) / 1000;
       lastTimestamp = timestamp;
 
       if (!paused) {
         recycleIfNeeded();
-        setScrollLeft(viewport.scrollLeft + SPEED_PX_PER_SECOND * dt);
+        viewport.scrollLeft = viewport.scrollLeft + SPEED_PX_PER_SECOND * dt;
       }
       requestAnimationFrame(step);
     }
@@ -251,43 +251,32 @@
     function pause() {
       paused = true;
       lastTimestamp = null;
-      if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+    }
+    function resume() {
+      paused = false;
+      lastTimestamp = null;
     }
 
-    function scheduleResume() {
-      if (resumeTimer) clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(function () {
-        paused = false;
-        lastTimestamp = null;
-        resumeTimer = null;
-      }, RESUME_DELAY_MS);
-    }
-
-    // Hover / focus: pause indefinitely until pointer / focus leaves.
+    // Mouse over the reviews strip: pause; off: resume immediately.
     root.addEventListener('mouseenter', pause);
-    root.addEventListener('focusin', pause);
-    root.addEventListener('mouseleave', scheduleResume);
-    root.addEventListener('focusout', scheduleResume);
+    root.addEventListener('mouseleave', resume);
 
-    // Distinguish user-driven scroll from our programmatic auto-scroll:
-    // if the actual scrollLeft diverges from what we last set, the user
-    // did it. Auto-scroll's delta per frame is < 1px, so a 3px tolerance
-    // safely catches any human gesture.
-    viewport.addEventListener('scroll', function () {
-      if (Math.abs(viewport.scrollLeft - expectedScrollLeft) > USER_SCROLL_TOLERANCE_PX) {
-        pause();
-        scheduleResume();
-      }
+    // Touch on the strip (mobile): pause while the finger is down, then
+    // resume after a short delay so inertia scroll completes.
+    viewport.addEventListener('touchstart', function () {
+      pause();
+      if (touchResumeTimer) { clearTimeout(touchResumeTimer); touchResumeTimer = null; }
     }, { passive: true });
-
-    // Touch on the strip: pause while the finger is down.
-    viewport.addEventListener('touchstart', pause, { passive: true });
-    viewport.addEventListener('touchend', scheduleResume, { passive: true });
-    viewport.addEventListener('touchcancel', scheduleResume, { passive: true });
+    function scheduleTouchResume() {
+      if (touchResumeTimer) clearTimeout(touchResumeTimer);
+      touchResumeTimer = setTimeout(resume, TOUCH_RESUME_DELAY_MS);
+    }
+    viewport.addEventListener('touchend', scheduleTouchResume, { passive: true });
+    viewport.addEventListener('touchcancel', scheduleTouchResume, { passive: true });
 
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) pause();
-      else scheduleResume();
+      else resume();
     });
   }
 
