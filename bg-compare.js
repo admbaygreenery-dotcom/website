@@ -106,7 +106,14 @@
     // Step 3: shared CSS for the layers + slider chrome.
     const style = document.createElement('style');
     style.textContent = [
-      '.bgc-layer { width: 100%; }',
+      '.bgc-layer {',
+      '  width: 100%;',
+      /* Fill the layer with its own --color-bg-main. Without this, areas
+         like .portfolio-layout (no explicit section background) stay
+         transparent and the underlying body color bleeds through, making
+         the slider look broken on those pages. */
+      '  background-color: var(--color-bg-main);',
+      '}',
       '.bgc-cool {',
       '  position: absolute;',
       '  top: 0; left: 0;',
