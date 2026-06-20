@@ -210,10 +210,18 @@
 
   // -------- State init from URL --------
   const urlParams = new URLSearchParams(window.location.search);
-  // ?path=portfolio.html or default to index.html
-  let currentPath = urlParams.get('path') || 'index.html';
-  // Strip a leading slash if present, normalize.
-  currentPath = currentPath.replace(/^\/+/, '');
+  // ?path=portfolio.html or default to index.html. Normalize to an
+  // absolute path under the same directory as bg-compare.html so we
+  // don't double-prefix the deploy path (e.g. /website/) on each nav.
+  function toAbsolutePath(input) {
+    if (!input) return null;
+    try {
+      const u = new URL(input, window.location.href);
+      if (u.origin !== window.location.origin) return null;
+      return u.pathname + u.search + u.hash;
+    } catch (e) { return null; }
+  }
+  let currentPath = toAbsolutePath(urlParams.get('path') || 'index.html');
 
   const state = { warm: {}, cool: {} };
   EDITABLE_VARS.forEach(function (v) {
@@ -233,8 +241,11 @@
   }
 
   // -------- Build iframe URL for a side --------
+  // `path` is an absolute pathname like "/website/portfolio.html" plus its
+  // own ?search and #hash. We treat it as absolute so it doesn't get
+  // resolved relative to the wrapper and gain extra prefix segments.
   function buildSrc(side, path) {
-    const u = new URL(path, window.location.href);
+    const u = new URL(path, window.location.origin);
     EDITABLE_VARS.forEach(function (v) {
       u.searchParams.set(v.key, state[side][v.key]);
     });
@@ -245,9 +256,14 @@
   const frameCool = document.getElementById('bgcFrameCool');
   const pathLabel = document.getElementById('bgcPath');
 
+  function displayPath(absPath) {
+    // Show just the pathname for legibility, no query/hash.
+    return (absPath || '').split('?')[0].split('#')[0];
+  }
+
   function loadFrames(path) {
     currentPath = path;
-    pathLabel.textContent = '/' + currentPath;
+    pathLabel.textContent = displayPath(currentPath);
     frameWarm.src = buildSrc('warm', currentPath);
     frameCool.src = buildSrc('cool', currentPath);
     syncWrapperUrl();
@@ -273,23 +289,22 @@
   });
 
   // -------- Navigation + scroll sync --------
-  // When the warm iframe navigates, mirror that path to cool.
+  // When one iframe navigates, mirror the path to the other side. We
+  // keep the absolute pathname (with its leading slash) so buildSrc
+  // doesn't resolve it as relative and double up the deploy prefix.
   let suppressNavSync = false;
   function setupFrameNavSync(srcFrame, side, otherFrame, otherSide) {
     srcFrame.addEventListener('load', function () {
       try {
         const loc = srcFrame.contentWindow.location;
-        const path = loc.pathname.replace(/^\/+/, '') + loc.search + loc.hash;
-        // Strip our color params from the path before mirroring so the
-        // other side can apply its own colors.
         const u = new URL(loc.href);
         EDITABLE_VARS.forEach(function (v) { u.searchParams.delete(v.key); });
-        const cleanPath = u.pathname.replace(/^\/+/, '') + u.search + u.hash;
+        const cleanPath = u.pathname + u.search + u.hash;
         if (suppressNavSync) return;
         if (cleanPath !== currentPath) {
           suppressNavSync = true;
           currentPath = cleanPath;
-          pathLabel.textContent = '/' + cleanPath.split('?')[0].split('#')[0];
+          pathLabel.textContent = displayPath(cleanPath);
           otherFrame.src = buildSrc(otherSide, cleanPath);
           syncWrapperUrl();
           setTimeout(function () { suppressNavSync = false; }, 200);
