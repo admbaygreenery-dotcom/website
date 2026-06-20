@@ -27,7 +27,8 @@ window.BAY_GREENERY_CONFIG = {
      Leave blank to disable analytics. */
   googleAnalyticsId: '',
 
-  /* Phone, email and address used in the footer. */
+  /* Phone, email and service area shown in the footer. Mailing address
+     is below. */
   email: 'ops@baygreenery.com',
   phone: '(408) 454-8078',
   phoneTel: '+14084548078',
