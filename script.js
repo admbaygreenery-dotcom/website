@@ -79,10 +79,6 @@
       if (config.phone) el.textContent = config.phone;
     });
 
-    document.querySelectorAll('[data-config="address"]').forEach(function (el) {
-      if (config.address) el.textContent = config.address;
-    });
-
     document.querySelectorAll('[data-config="service-area"]').forEach(function (el) {
       if (Array.isArray(config.serviceArea)) {
         el.textContent = config.serviceArea.join(' • ');
