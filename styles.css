@@ -36,11 +36,11 @@
    ---------------------------------------------------------- */
 :root {
   /* Brand colors (match the bay greenery logotype) */
-  --color-bg-main: #f5f0e8;            /* Cream — body bg + section bg */
+  --color-bg-main: #f2ece1;            /* Warm cream — body bg + section bg */
   --color-brand-slate: #3c4a55;        /* Logo dark wordmark */
   --color-brand-lime: #a4cf3f;         /* Logo bright green + leaf */
-  --color-accent-green: #5a7c3a;       /* Primary CTA — bridges slate + lime */
-  --color-accent-green-dark: #44602a;  /* Darker for hover */
+  --color-accent-green: #7b8c68;       /* Sage — primary CTA */
+  --color-accent-green-dark: #62724f;  /* Darker sage for hover */
   --color-accent-gold: #c9a04a;        /* List bullets, review stars */
   --color-bay-light: #c9d8d3;          /* Soft secondary */
 
