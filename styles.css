@@ -1114,7 +1114,7 @@ img { max-width: 100%; display: block; }
 @media (max-width: 600px) { .project-card-grid { grid-template-columns: 1fr; } }
 
 /* ----------------------------------------------------------
-   PROJECT PHOTO GRID — shared by portfolio.html sections
+   PROJECT PHOTO GRID — shared by /portfolio/ sections
    ---------------------------------------------------------- */
 .project-photo-grid {
   display: grid;
