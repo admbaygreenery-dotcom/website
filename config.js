@@ -25,7 +25,7 @@ window.BAY_GREENERY_CONFIG = {
 
   /* Google Analytics 4 measurement ID — e.g. 'G-XXXXXXXXXX'.
      Leave blank to disable analytics. */
-  googleAnalyticsId: '',
+  googleAnalyticsId: 'G-DW0B255290',
 
   /* Phone, email and service area shown in the footer. Mailing address
      is below. */
