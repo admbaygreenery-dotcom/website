@@ -1,0 +1,10 @@
+# Minimal Jekyll config for GitHub Pages.
+# The site itself is plain HTML/CSS/JS — Jekyll is not generating pages.
+# This file exists only to explicitly exclude collaborator-only files
+# from the published output, so they live on github.com but never
+# reach baygreenery.com.
+
+exclude:
+  - README.md
+  - .gitignore
+  - _config.yml
